@@ -14,7 +14,6 @@ public class Pbxproj: AutoPbxSubscript {
     enum StringField: String {
         case archiveVersion
         case objectVersion
-        case rootObject
     }
     enum ArrayField: String {
         case nop
@@ -31,14 +30,18 @@ public class Pbxproj: AutoPbxSubscript {
     enum OptionalObjectField: String {
         case classes
     }
+    enum ObjectIdField: String {
+        case rootObject
+    }
 
-    var object: Object
-    public init(path: String) throws {
+    public let object: Object
+    public required init(object: Object) {
+        self.object = object
+    }
+    public convenience init(path: String) throws {
         let reader = Reader(path: path)
         try reader.parse()
-        self.object = reader.object
-        //let rootObjectKey =
-        //Project(key: rootObjectKey, objects: objects)!
+        self.init(object: reader.object)
     }
     public func string() -> String {
         return object.string()

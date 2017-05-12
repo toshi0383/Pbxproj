@@ -14,16 +14,17 @@ class PbxprojTests: XCTestCase {
         pbxproj = try! Pbxproj(path: path)
     }
     func testPbxproj() {
-        XCTAssertEqual(pbxproj[.archiveVersion], "1")
-        XCTAssertEqual(pbxproj[.objectVersion], "46")
+        XCTAssertEqual(pbxproj.archiveVersion, "1")
+        XCTAssertEqual(pbxproj.objectVersion, "46")
         let exObj: Object = [:]
-        XCTAssertEqual(pbxproj[.classes]!, exObj)
+        XCTAssertEqual(pbxproj.classes!, exObj)
     }
     func testModification() {
-        XCTAssertEqual(pbxproj[.archiveVersion], "1")
-        pbxproj[.archiveVersion] = "2"
-        XCTAssertEqual(pbxproj[.archiveVersion], "2")
+        XCTAssertEqual(pbxproj.archiveVersion, "1")
+        pbxproj.archiveVersion = "2"
+        XCTAssertEqual(pbxproj.archiveVersion, "2")
         XCTAssert(pbxproj.string().contains("archiveVersion = 2"))
-        let objects: Object = pbxproj[.objects]
+//        pbxproj.targets[0].name = "Hello Modified"
+//        XCTAssert(pbxproj.targets[0].name, "Hello Modified")
     }
 }

@@ -7,31 +7,36 @@
 //
 
 import Foundation
+import AsciiPlistParser
 
 public enum FileType: String {
     case xcconfig = "text.xcconfig"
 }
 
-public class FileReference: IsaObject {
-    public var key: String
-    public var rawObject: [String : Any]
-    public var lastKnownFileType: FileType
-    public var path: String
-    public var sourceTree: String
-
-    // custom property
-    public var fullPath: String
-
-    public required init?(key: String, value o: [String : Any], objects: [String : Any]) {
-        guard IsaType(object: o) == .PBXFileReference else {
-            return nil
-        }
-        self.key = key
-        self.rawObject = o
-        self.lastKnownFileType = FileType(rawValue: o["lastKnownFileType"] as! String)!
-        self.path = o["path"] as! String
-        let fullPath = findPaths(to: key, objects: objects) + [self.path]
-        self.fullPath = fullPath.joined(separator: "/")
-        self.sourceTree = o["sourceTree"] as! String
+final public class FileReference: IsaObject {
+    public let object: Object
+    public required init(object: Object) {
+        self.object = object
     }
+    // public var key: String
+    // public var rawObject: [String : Any]
+    // public var lastKnownFileType: FileType
+    // public var path: String
+    // public var sourceTree: String
+
+    // // custom property
+    // public var fullPath: String
+
+    // public required init?(key: String, value o: [String : Any], objects: [String : Any]) {
+    //     guard IsaType(object: o) == .PBXFileReference else {
+    //         return nil
+    //     }
+    //     self.key = key
+    //     self.rawObject = o
+    //     self.lastKnownFileType = FileType(rawValue: o["lastKnownFileType"] as! String)!
+    //     self.path = o["path"] as! String
+    //     let fullPath = findPaths(to: key, objects: objects) + [self.path]
+    //     self.fullPath = fullPath.joined(separator: "/")
+    //     self.sourceTree = o["sourceTree"] as! String
+    // }
 }

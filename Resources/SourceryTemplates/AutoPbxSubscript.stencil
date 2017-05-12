@@ -1,7 +1,11 @@
 import AsciiPlistParser
 
 {% for type in types.implementing.AutoPbxSubscript %}
+// MARK: {{ type.name }}
 extension {{ type.name }} {
+{% for t in type.containedTypes %}
+{% if t.kind == "enum" %}
+    {% if t.name|hasSuffix:".StringField" %}
     subscript(field: StringField) -> String {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
@@ -17,6 +21,8 @@ extension {{ type.name }} {
             return object.string(for: field.rawValue)!
         }
     }
+    {% endif %}
+    {% if t.name|hasSuffix:".ArrayField" %}
     subscript(field: ArrayField) -> [StringValue] {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
@@ -32,7 +38,22 @@ extension {{ type.name }} {
             return object.arrayValue(for: field.rawValue)!.value
         }
     }
+    {% endif %}
+    {% if t.name|hasSuffix:".ObjectField" %}
     subscript(field: ObjectField) -> Object {
+        set(newValue) {
+            let id = object.string(for: field.rawValue)!
+            let keyref = object.keyRef(for: id)!
+            object[keyref] = newValue
+        }
+        get {
+            let id = object.string(for: field.rawValue)!
+            return object.object(for: id)!
+        }
+    }
+    {% endif %}
+    {% if t.name|hasSuffix:".ObjectIdField" %}
+    subscript(field: ObjectIdField) -> Object {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
                 object[keyref] = newValue
@@ -45,6 +66,8 @@ extension {{ type.name }} {
             return object.object(for: field.rawValue)!
         }
     }
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalStringField" %}
     subscript(field: OptionalStringField) -> String? {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
@@ -64,6 +87,8 @@ extension {{ type.name }} {
             return object.string(for: field.rawValue)
         }
     }
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalArrayField" %}
     subscript(field: OptionalArrayField) -> [StringValue]? {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
@@ -83,6 +108,8 @@ extension {{ type.name }} {
             return object.arrayValue(for: field.rawValue)?.value
         }
     }
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalObjectField" %}
     subscript(field: OptionalObjectField) -> Object? {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
@@ -96,5 +123,56 @@ extension {{ type.name }} {
             return object.object(for: field.rawValue)
         }
     }
+    {% endif %}
+
+    {% for c in t.cases %}
+    {% if c.name != "nop" %}
+    {% if t.name|hasSuffix:".StringField" %}
+    public var {{ c.name }}: String {
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
+    }
+    {% endif %}
+    {% if t.name|hasSuffix:".ArrayField" %}
+    public var {{ c.name }}: [StringValue] {
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
+    }
+    {% endif %}
+    {% if t.name|hasSuffix:".ObjectField" %}
+    public var {{ c.name }}: Object {
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
+    }
+    {% endif %}
+    {% if t.name|hasSuffix:".ObjectIdField" %}
+    public var {{ c.name }}: Object {
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
+    }
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalStringField" %}
+    public var {{ c.name }}: String? {
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
+    }
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalArrayField" %}
+    public var {{ c.name }}: [StringValue]? {
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
+    }
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalObjectField" %}
+    public var {{ c.name }}: Object? {
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
+    }
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+
+{% endif %}
+{% endfor %}
 }
 {% endfor %}

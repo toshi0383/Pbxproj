@@ -3,7 +3,7 @@ SOURCERY ?= ./.build/debug/sourcery
 MODULE_NAME = PBXProj
 
 bootstrap:
-	SWIFTPM_DEVELOPMENT_Pbxproj=YES swift build
+	SWIFTPM_DEVELOPMENT=YES swift build
 	swift package generate-xcodeproj
 	# todo: Add fixtures to xcodeproj
 start-daemons:

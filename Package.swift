@@ -4,7 +4,7 @@ import Foundation
 import PackageDescription
 
 var isDevelopment: Bool {
-	return ProcessInfo.processInfo.environment["SWIFTPM_DEVELOPMENT_Pbxproj"] == "YES"
+	return ProcessInfo.processInfo.environment["SWIFTPM_DEVELOPMENT"] == "YES"
 }
 
 let package = Package(

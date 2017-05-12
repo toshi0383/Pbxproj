@@ -24,7 +24,10 @@ public enum IsaType: String {
     }
 }
 
-protocol AutoPbxSubscript { }
+public protocol AutoPbxSubscript {
+    var object: Object { get }
+    init(object: Object)
+}
 
 //protocol PBXObject {
 //    static func decode(_ object: Object) throws -> Self
@@ -54,9 +57,14 @@ protocol AutoPbxSubscript { }
 //public protocol OptionalStringFieldType: RawRepresentable { }
 //public protocol OptionalArrayFieldType: RawRepresentable { }
 //public protocol OptionalObjectFieldType: RawRepresentable { }
-//
-//public protocol IsaObject {
-//    var key: String { get }
-//    var isa: IsaType { get }
-//    init?(key: String, objects: Object)
-//}
+
+public protocol IsaObject: class, AutoPbxSubscript {
+    var isa: IsaType { get }
+}
+
+extension IsaObject {
+    public var isa: IsaType {
+        get { return IsaType(rawValue: object.string(for: "isa")!)! }
+        set(newValue) { object["isa"] = newValue.rawValue }
+    }
+}
