@@ -36,26 +36,23 @@ public class BuildConfigurationList: IsaObject, ObjectsReferencing {
     // }
 }
 
+typealias BaseConfigurationReference = FileReference
+
 public class BuildConfiguration: IsaObject, ObjectsReferencing {
+    enum StringField: String {
+        case name
+    }
+    enum FileReferencingField: String {
+        case baseConfigurationReference
+    }
+    enum ObjectField: String {
+        case buildSettings
+    }
     public let object: Object
     public let objects: Object
     public init(object: Object, objects: Object) {
         self.object = object
         self.objects = objects
     }
-    // public var key: String
-    // public var rawObject: [String: Any]
-    // public var name: String
     // public var baseConfigurationReference: FileReference?
-    // public var buildSettings: [String: Any]
-    // public required init?(key: String, value o: [String: Any], objects: [String: Any]) {
-    //     guard IsaType(object: o) == .XCBuildConfiguration else {
-    //         return nil
-    //     }
-    //     self.key = key
-    //     self.rawObject = o
-    //     self.name = o["name"] as! String
-    //     self.baseConfigurationReference = FileReference(key: o["baseConfigurationReference"], objects: objects)
-    //     self.buildSettings = o["buildSettings"] as! [String: Any]
-    // }
 }

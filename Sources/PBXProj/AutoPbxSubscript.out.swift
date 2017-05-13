@@ -6,6 +6,44 @@ import AsciiPlistParser
 
 // MARK: BuildConfiguration
 extension BuildConfiguration {
+    subscript(field: StringField) -> String {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)!
+        }
+    }
+
+    public var name: String {
+        get { return self[.name] }
+        set(newValue) { self[.name] = newValue }
+    }
+
+
+
+    subscript(field: ObjectField) -> Object {
+        set(newValue) {
+            let keyref = object.keyRef(for: field.rawValue)!
+            object[keyref] = newValue
+        }
+        get {
+            return object.object(for: field.rawValue)!
+        }
+    }
+
+    public var buildSettings: Object {
+        get { return self[.buildSettings] }
+        set(newValue) { self[.buildSettings] = newValue }
+    }
+
 }
 // MARK: BuildConfigurationList
 extension BuildConfigurationList {

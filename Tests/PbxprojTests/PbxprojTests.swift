@@ -30,10 +30,17 @@ class PbxprojTests: XCTestCase {
         XCTAssert(pbxproj.string().contains("Hello Modified"))
     }
 
-    func testNativeTarget() {
+    func testBuildSettings() {
+        XCTAssert(pbxproj.string().contains("jp.toshi0383.HelloWorld") == false)
         for target in pbxproj.targets {
+            if target.name != "SingleViewApplicationTests" {
+                continue
+            }
             for configuration in target.buildConfigurationList.buildConfigurations {
+                XCTAssertEqual(configuration.buildSettings.string(for: "PRODUCT_BUNDLE_IDENTIFIER")!, "jp.toshi0383.SingleViewApplicationTests")
+                configuration.buildSettings["PRODUCT_BUNDLE_IDENTIFIER"] = "jp.toshi0383.HelloWorld"
             }
         }
+        XCTAssert(pbxproj.string().contains("jp.toshi0383.HelloWorld"))
     }
 }

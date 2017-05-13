@@ -7,7 +7,7 @@ extension PbxprojTests {
   static var allTests: [(String, (PbxprojTests) -> () throws -> Void)] = [
     ("testPbxproj", testPbxproj),
     ("testModification", testModification),
-    ("testNativeTarget", testNativeTarget),
+    ("testBuildSettings", testBuildSettings),
   ]
 }
 
