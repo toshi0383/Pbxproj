@@ -50,21 +50,6 @@ extension {{ type.name }} {
         }
     }
     {% endif %}
-    {% if t.name|hasSuffix:".ObjectIdField" %}
-    // subscript(field: ObjectIdField) -> Object {
-    //     set(newValue) {
-    //         if let keyref = object.keyRef(for: field.rawValue) {
-    //             object[keyref] = newValue
-    //         } else {
-    //             let keyref = KeyRef(value: field.rawValue, annotation: nil)
-    //             object[keyref] = newValue
-    //         }
-    //     }
-    //     get {
-    //         return objects.object(for: object.string(for: field.rawValue)!)!
-    //     }
-    // }
-    {% endif %}
     {% if t.name|hasSuffix:".OptionalStringField" %}
     subscript(field: OptionalStringField) -> String? {
         set(newValue) {
