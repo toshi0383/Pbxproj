@@ -45,9 +45,10 @@ class PbxprojTests: XCTestCase {
     }
 
     func testFileReference() {
+        // TODO: Needs proper test
         XCTAssertEqual(
             pbxproj.targets[0].buildConfigurationList.buildConfigurations[0].baseConfigurationReference?.fullPath,
-            ""
+           nil
         )
     }
 }

@@ -13,27 +13,18 @@ public class BuildConfigurationList: IsaObject, ObjectsReferencing {
     enum ObjectsReferencingArrayField {
         case buildConfigurations
     }
+    enum OptionalStringField: String {
+        case defaultConfigurationName
+    }
+    enum StringField: String {
+        case defaultConfigurationIsVisible
+    }
     public let object: Object
     public let objects: Object
     public init(object: Object, objects: Object) {
         self.object = object
         self.objects = objects
     }
-    // public var buildConfigurations: [BuildConfiguration]
-    // public var defaultConfigurationName: String?
-    // public var defaultConfigurationIsVisible: String
-    // public required init?(key: String, value o: [String: Any], objects: [String: Any]) {
-    //     guard IsaType(object: o) == .XCConfigurationList else {
-    //         return nil
-    //     }
-    //     self.key = key
-    //     self.rawObject = o
-    //     self.defaultConfigurationName = o["defaultConfigurationName"] as? String
-    //     let buildConfigurationKeys = o["buildConfigurations"] as! [String]
-    //     self.buildConfigurations = buildConfigurationKeys.map { key in (key, objects) }
-    //         .flatMap(BuildConfiguration.init)
-    //     self.defaultConfigurationIsVisible = o["defaultConfigurationIsVisible"] as! String
-    // }
 }
 
 public class BuildConfiguration: IsaObject, ObjectsReferencing {
@@ -52,5 +43,4 @@ public class BuildConfiguration: IsaObject, ObjectsReferencing {
         self.object = object
         self.objects = objects
     }
-    // public var baseConfigurationReference: FileReference?
 }

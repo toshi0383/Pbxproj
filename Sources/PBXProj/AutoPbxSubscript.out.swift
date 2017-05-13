@@ -55,6 +55,52 @@ extension BuildConfiguration {
 extension BuildConfigurationList {
 
 
+    subscript(field: OptionalStringField) -> String? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                if let newValue = newValue {
+                    let existing = object[keyref] as! StringValue
+                    existing.value = newValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)
+        }
+    }
+
+    public var defaultConfigurationName: String? {
+        get { return self[.defaultConfigurationName] }
+        set(newValue) { self[.defaultConfigurationName] = newValue }
+    }
+
+    subscript(field: StringField) -> String {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)!
+        }
+    }
+
+    public var defaultConfigurationIsVisible: String {
+        get { return self[.defaultConfigurationIsVisible] }
+        set(newValue) { self[.defaultConfigurationIsVisible] = newValue }
+    }
+
 }
 // MARK: FileReference
 extension FileReference {
