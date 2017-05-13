@@ -1,7 +1,7 @@
 import Foundation
 import AsciiPlistParser
 
-public class Project: IsaObject {
+public class RootObject: IsaObject, ObjectsReferencing {
     enum StringField: String {
         case compatibilityVersion
         case developmentRegion
@@ -12,7 +12,6 @@ public class Project: IsaObject {
     }
     enum ArrayField: String {
         case knownRegions
-        case targets
     }
     enum ObjectField: String {
         case attributes
@@ -21,8 +20,13 @@ public class Project: IsaObject {
     enum OptionalStringField: String {
         case projectRoot
     }
+    enum ObjectsReferencingArrayField {
+        case targets
+    }
     public let object: Object
-    public required init(object: Object) {
+    public let objects: Object
+    public required init(object: Object, objects: Object) {
         self.object = object
+        self.objects = objects
     }
 }

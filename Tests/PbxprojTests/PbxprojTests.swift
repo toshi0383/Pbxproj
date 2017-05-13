@@ -29,4 +29,11 @@ class PbxprojTests: XCTestCase {
         XCTAssertEqual(pbxproj.targets[0].name, "Hello Modified")
         XCTAssert(pbxproj.string().contains("Hello Modified"))
     }
+
+    func testNativeTarget() {
+        for target in pbxproj.targets {
+            for configuration in target.buildConfigurationList.buildConfigurations {
+            }
+        }
+    }
 }

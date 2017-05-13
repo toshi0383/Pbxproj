@@ -51,19 +51,19 @@ extension {{ type.name }} {
     }
     {% endif %}
     {% if t.name|hasSuffix:".ObjectIdField" %}
-    subscript(field: ObjectIdField) -> Object {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                object[keyref] = newValue
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
-            }
-        }
-        get {
-            return objects.object(for: object.string(for: field.rawValue)!)!
-        }
-    }
+    // subscript(field: ObjectIdField) -> Object {
+    //     set(newValue) {
+    //         if let keyref = object.keyRef(for: field.rawValue) {
+    //             object[keyref] = newValue
+    //         } else {
+    //             let keyref = KeyRef(value: field.rawValue, annotation: nil)
+    //             object[keyref] = newValue
+    //         }
+    //     }
+    //     get {
+    //         return objects.object(for: object.string(for: field.rawValue)!)!
+    //     }
+    // }
     {% endif %}
     {% if t.name|hasSuffix:".OptionalStringField" %}
     subscript(field: OptionalStringField) -> String? {
@@ -158,11 +158,13 @@ extension {{ type.name }} {
         set(newValue) { self[.{{ c.name }}] = newValue }
     }
     {% endif %}
-    {% if t.name|hasSuffix:".ObjectIdField" %}
-    public var {{ c.name }}: Object {
-        get { return self[.{{ c.name }}] }
-        set(newValue) { self[.{{ c.name }}] = newValue }
+    {% if t.name|hasSuffix:".ObjectsReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    public var {{ c.name }}: {{ c.name|upperFirst }} {
+        let id = object.string(for: "{{ c.name }}")!
+        return {{ c.name|upperFirst }}(object: objects.object(for: id)!, objects: objects)
     }
+    {% endif %}
     {% endif %}
     {% if t.name|hasSuffix:".OptionalStringField" %}
     public var {{ c.name }}: String? {

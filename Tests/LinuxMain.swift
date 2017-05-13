@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.5.8 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.6.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -7,6 +7,7 @@ extension PbxprojTests {
   static var allTests: [(String, (PbxprojTests) -> () throws -> Void)] = [
     ("testPbxproj", testPbxproj),
     ("testModification", testModification),
+    ("testNativeTarget", testNativeTarget),
   ]
 }
 

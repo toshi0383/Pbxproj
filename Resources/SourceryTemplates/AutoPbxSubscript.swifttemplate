@@ -1,0 +1,21 @@
+import AsciiPlistParser
+
+<% for type in types.implementing["AutoPbxSubscript"]! { %>
+// MARK: <%= type.name %>
+extension <%= type.name %> {
+<% for t in type.containedTypes { %>
+<% guard let e = t as? Enum else { return } %>
+<% for c in e.cases { %>
+    <%_ %><% if t.name.hasSuffix(".ObjectsReferencingArrayField") { %>
+    <%_ %><% if type.implements["ObjectsReferencing"] != nil { %>
+    <%_ %><% let typename = c.name.characters.map{String($0)}.reduce([]){ $0.isEmpty ? [$1.uppercased()] : $0 + [$1]}.dropLast().joined() %>
+    public var <%= c.name %>: [<%= typename %>] {
+        let ids = object.stringArray(for: "<%= c.name %>")!
+        return ids.map(objectTuple).map(<%= typename %>.init)
+    }
+    <%_ %><% } %>
+    <%_ %><% } %>
+<% } %>
+<% } %>
+}
+<% } %>

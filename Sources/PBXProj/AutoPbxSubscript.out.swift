@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.5.8 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.6.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -9,6 +9,8 @@ extension BuildConfiguration {
 }
 // MARK: BuildConfigurationList
 extension BuildConfigurationList {
+
+
 }
 // MARK: FileReference
 extension FileReference {
@@ -19,102 +21,8 @@ extension Group {
 // MARK: IsaObject
 extension IsaObject {
 }
-// MARK: NativeTarget
-extension NativeTarget {
-    subscript(field: StringField) -> String {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                let existing = object[keyref] as! StringValue
-                existing.value = newValue
-                object[keyref] = existing
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
-            }
-        }
-        get {
-            return object.string(for: field.rawValue)!
-        }
-    }
-
-    public var name: String {
-        get { return self[.name] }
-        set(newValue) { self[.name] = newValue }
-    }
-    public var productName: String {
-        get { return self[.productName] }
-        set(newValue) { self[.productName] = newValue }
-    }
-    public var productReference: String {
-        get { return self[.productReference] }
-        set(newValue) { self[.productReference] = newValue }
-    }
-    public var buildConfigurationList: String {
-        get { return self[.buildConfigurationList] }
-        set(newValue) { self[.buildConfigurationList] = newValue }
-    }
-
-
-    subscript(field: RawRepresentableField) -> ProductType {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                object[keyref] = newValue.rawValue
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue.rawValue
-            }
-        }
-        get {
-            return ProductType(rawValue: object.string(for: field.rawValue)!)!
-        }
-    }
-
-    subscript(field: OptionalArrayField) -> [StringValue]? {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                if let newValue = newValue {
-                    let existing = object[keyref] as! ArrayValue
-                    existing.value = newValue
-                    object[keyref] = existing
-                } else {
-                    object[keyref] = nil
-                }
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
-            }
-        }
-        get {
-            return object.arrayValue(for: field.rawValue)?.value
-        }
-    }
-
-    public var buildRules: [StringValue]? {
-        get { return self[.buildRules] }
-        set(newValue) { self[.buildRules] = newValue }
-    }
-
-    subscript(field: ArrayField) -> [StringValue] {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                let existing = object[keyref] as! ArrayValue
-                existing.value = newValue
-                object[keyref] = existing
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
-            }
-        }
-        get {
-            return object.arrayValue(for: field.rawValue)!.value
-        }
-    }
-
-    public var dependencies: [StringValue] {
-        get { return self[.dependencies] }
-        set(newValue) { self[.dependencies] = newValue }
-    }
-
+// MARK: ObjectsReferencing
+extension ObjectsReferencing {
 }
 // MARK: Pbxproj
 extension Pbxproj {
@@ -236,28 +144,15 @@ extension Pbxproj {
         set(newValue) { self[.classes] = newValue }
     }
 
-    subscript(field: ObjectIdField) -> Object {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                object[keyref] = newValue
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
-            }
-        }
-        get {
-            return objects.object(for: object.string(for: field.rawValue)!)!
-        }
-    }
 
-    public var rootObject: Object {
-        get { return self[.rootObject] }
-        set(newValue) { self[.rootObject] = newValue }
+    public var rootObject: RootObject {
+        let id = object.string(for: "rootObject")!
+        return RootObject(object: objects.object(for: id)!, objects: objects)
     }
 
 }
-// MARK: Project
-extension Project {
+// MARK: RootObject
+extension RootObject {
     subscript(field: StringField) -> String {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
@@ -319,10 +214,6 @@ extension Project {
         get { return self[.knownRegions] }
         set(newValue) { self[.knownRegions] = newValue }
     }
-    public var targets: [StringValue] {
-        get { return self[.targets] }
-        set(newValue) { self[.targets] = newValue }
-    }
 
     subscript(field: ObjectField) -> Object {
         set(newValue) {
@@ -366,6 +257,107 @@ extension Project {
     public var projectRoot: String? {
         get { return self[.projectRoot] }
         set(newValue) { self[.projectRoot] = newValue }
+    }
+
+
+
+}
+// MARK: Target
+extension Target {
+    subscript(field: StringField) -> String {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)!
+        }
+    }
+
+    public var name: String {
+        get { return self[.name] }
+        set(newValue) { self[.name] = newValue }
+    }
+    public var productName: String {
+        get { return self[.productName] }
+        set(newValue) { self[.productName] = newValue }
+    }
+    public var productReference: String {
+        get { return self[.productReference] }
+        set(newValue) { self[.productReference] = newValue }
+    }
+
+
+    subscript(field: RawRepresentableField) -> ProductType {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue.rawValue
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue.rawValue
+            }
+        }
+        get {
+            return ProductType(rawValue: object.string(for: field.rawValue)!)!
+        }
+    }
+
+    subscript(field: OptionalArrayField) -> [StringValue]? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                if let newValue = newValue {
+                    let existing = object[keyref] as! ArrayValue
+                    existing.value = newValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.arrayValue(for: field.rawValue)?.value
+        }
+    }
+
+    public var buildRules: [StringValue]? {
+        get { return self[.buildRules] }
+        set(newValue) { self[.buildRules] = newValue }
+    }
+
+    subscript(field: ArrayField) -> [StringValue] {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! ArrayValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.arrayValue(for: field.rawValue)!.value
+        }
+    }
+
+    public var dependencies: [StringValue] {
+        get { return self[.dependencies] }
+        set(newValue) { self[.dependencies] = newValue }
+    }
+
+
+    public var buildConfigurationList: BuildConfigurationList {
+        let id = object.string(for: "buildConfigurationList")!
+        return BuildConfigurationList(object: objects.object(for: id)!, objects: objects)
     }
 
 }

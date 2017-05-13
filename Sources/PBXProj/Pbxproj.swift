@@ -10,7 +10,7 @@ import Foundation
 import AsciiPlistParser
 import PathKit
 
-public class Pbxproj: AutoPbxSubscript {
+public class Pbxproj: AutoPbxSubscript, ObjectsReferencing {
     enum StringField: String {
         case archiveVersion
         case objectVersion
@@ -30,7 +30,7 @@ public class Pbxproj: AutoPbxSubscript {
     enum OptionalObjectField: String {
         case classes
     }
-    enum ObjectIdField: String {
+    enum ObjectsReferencingField: String {
         case rootObject
     }
 
@@ -53,9 +53,9 @@ public class Pbxproj: AutoPbxSubscript {
 
 // MARK: Alias Access API
 extension Pbxproj {
-    public var targets: [NativeTarget] {
+    public var targets: [Target] {
         get {
-            return rootObject.stringArray(for: "targets")!.flatMap(objects.object).map(NativeTarget.init)
+            return rootObject.targets
         }
     }
 }

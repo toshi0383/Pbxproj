@@ -1,5 +1,5 @@
 //
-//  NativeTarget.swift
+//  Target.swift
 //  xcconfig-extractor
 //
 //  Created by Toshihiro Suzuki on 2017/04/27.
@@ -17,12 +17,11 @@ public enum ProductType: String {
     case tool = "com.apple.product-type.tool"
 }
 
-final public class NativeTarget: IsaObject {
+final public class Target: IsaObject, ObjectsReferencing {
     enum StringField: String {
         case name
         case productName
         case productReference // TODO: Can be ObjectIdField ?
-        case buildConfigurationList
     }
     enum RawRepresentableField: String {
         case productType
@@ -33,8 +32,13 @@ final public class NativeTarget: IsaObject {
     enum ArrayField: String {
         case dependencies // TODO: Can be ObjectIdField ?
     }
+    enum ObjectsReferencingField: String {
+        case buildConfigurationList // TODO: Can be ObjectIdField ?
+    }
     public let object: Object
-    public required init(object: Object) {
+    public let objects: Object
+    public init(object: Object, objects: Object) {
         self.object = object
+        self.objects = objects
     }
 }

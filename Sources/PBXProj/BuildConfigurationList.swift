@@ -9,12 +9,16 @@
 import Foundation
 import AsciiPlistParser
 
-public class BuildConfigurationList: IsaObject {
-    public let object: Object
-    public required init(object: Object) {
-        self.object = object
+public class BuildConfigurationList: IsaObject, ObjectsReferencing {
+    enum ObjectsReferencingArrayField {
+        case buildConfigurations
     }
-    // public var rawObject: [String: Any]
+    public let object: Object
+    public let objects: Object
+    public init(object: Object, objects: Object) {
+        self.object = object
+        self.objects = objects
+    }
     // public var buildConfigurations: [BuildConfiguration]
     // public var defaultConfigurationName: String?
     // public var defaultConfigurationIsVisible: String
@@ -32,10 +36,12 @@ public class BuildConfigurationList: IsaObject {
     // }
 }
 
-public class BuildConfiguration: IsaObject {
+public class BuildConfiguration: IsaObject, ObjectsReferencing {
     public let object: Object
-    public required init(object: Object) {
+    public let objects: Object
+    public init(object: Object, objects: Object) {
         self.object = object
+        self.objects = objects
     }
     // public var key: String
     // public var rawObject: [String: Any]
