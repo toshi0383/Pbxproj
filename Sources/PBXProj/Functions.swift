@@ -28,7 +28,3 @@ func _findPaths(to id: String, objects: Object) -> [String] {
     }
     return []
 }
-
-//func decodeAsciiPlist<T: PBXObject>(_ object: Object) throws -> T {
-//    return try T.decode(object)
-//}
