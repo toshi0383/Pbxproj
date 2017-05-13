@@ -38,6 +38,20 @@ for target in pbxproj.targets {
 
 See [toshi0383/AsciiPlistParser](https://github.com/toshi0383/AsciiPlistParser) for detail.
 
+# TODOs
+A lot of fundamental features are still work-in-progress.  
+Contribution is welcomed.
+
+# Development
+- Run `make bootstrap` to checkout and build dependencies.
+- Run `make sourcery` to update auto generated source code.
+
+`.build/debug/sourcery` may fail. Clone and Build Sourcery from source code if it doesn't work, then run following.
+
+```
+SOURCERY=your-path-to/sourcery make sourcery
+```
+
 # License
 MIT
 
