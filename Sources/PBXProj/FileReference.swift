@@ -31,9 +31,10 @@ final public class FileReference: IsaObject, ObjectsReferencing {
     }
 }
 
+// MARK: Useful API
 extension FileReference {
     public var fullPath: String {
-        let path =  findPaths(to: self, objects: objects) + [self.path]
+        let path = findPaths(to: self, objects: objects) + [self.path]
         return path.joined(separator: "/")
     }
 }
