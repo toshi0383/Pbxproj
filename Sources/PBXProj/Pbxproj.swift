@@ -50,3 +50,12 @@ public class Pbxproj: AutoPbxSubscript {
         try! Path(path).write(self.string())
     }
 }
+
+// MARK: Alias Access API
+extension Pbxproj {
+    public var targets: [NativeTarget] {
+        get {
+            return rootObject.stringArray(for: "targets")!.flatMap(objects.object).map(NativeTarget.init)
+        }
+    }
+}

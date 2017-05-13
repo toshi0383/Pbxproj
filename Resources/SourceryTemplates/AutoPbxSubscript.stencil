@@ -42,13 +42,11 @@ extension {{ type.name }} {
     {% if t.name|hasSuffix:".ObjectField" %}
     subscript(field: ObjectField) -> Object {
         set(newValue) {
-            let id = object.string(for: field.rawValue)!
-            let keyref = object.keyRef(for: id)!
+            let keyref = object.keyRef(for: field.rawValue)!
             object[keyref] = newValue
         }
         get {
-            let id = object.string(for: field.rawValue)!
-            return object.object(for: id)!
+            return object.object(for: field.rawValue)!
         }
     }
     {% endif %}
@@ -63,7 +61,7 @@ extension {{ type.name }} {
             }
         }
         get {
-            return object.object(for: field.rawValue)!
+            return objects.object(for: object.string(for: field.rawValue)!)!
         }
     }
     {% endif %}
@@ -127,6 +125,21 @@ extension {{ type.name }} {
 
     {% for c in t.cases %}
     {% if c.name != "nop" %}
+    {% if t.name|hasSuffix:".RawRepresentableField" %}
+    subscript(field: RawRepresentableField) -> {{ c.name|upperFirst }} {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue.rawValue
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue.rawValue
+            }
+        }
+        get {
+            return {{ c.name|upperFirst }}(rawValue: object.string(for: field.rawValue)!)!
+        }
+    }
+    {% endif %}
     {% if t.name|hasSuffix:".StringField" %}
     public var {{ c.name }}: String {
         get { return self[.{{ c.name }}] }

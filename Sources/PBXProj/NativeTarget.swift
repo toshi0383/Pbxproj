@@ -18,34 +18,23 @@ public enum ProductType: String {
 }
 
 final public class NativeTarget: IsaObject {
+    enum StringField: String {
+        case name
+        case productName
+        case productReference // TODO: Can be ObjectIdField ?
+        case buildConfigurationList
+    }
+    enum RawRepresentableField: String {
+        case productType
+    }
+    enum OptionalArrayField: String {
+        case buildRules   // TODO: Can be ObjectIdField ?
+    }
+    enum ArrayField: String {
+        case dependencies // TODO: Can be ObjectIdField ?
+    }
     public let object: Object
     public required init(object: Object) {
         self.object = object
     }
-    // public var key: String
-    // public var rawObject: [String: Any]
-    // public var name: String
-    // public var productName: String
-    // public var productType: ProductType
-    // public var buildRules: [Any]? // TODO
-    // public var productReference: String
-    // public var dependencies: [Any] // TODO
-    // public var buildPhases: [String] // TODO
-    // public var buildConfigurationList: BuildConfigurationList
-    // public required init?(key: String, value o: [String: Any], objects: [String: Any]) {
-    //     guard IsaType(object: o) == .PBXNativeTarget else {
-    //         return nil
-    //     }
-    //     self.key = key
-    //     self.rawObject = o
-    //     self.name = o["name"] as! String
-    //     self.productName = o["productName"] as! String
-    //     self.productType = ProductType(rawValue: o["productType"] as! String)!
-    //     self.buildRules = o["buildRules"] as? [Any]
-    //     self.productReference = o["productReference"] as! String
-    //     self.dependencies = o["dependencies"] as! [Any]
-    //     self.buildPhases = o["buildPhases"] as! [String]
-    //     let buildConfigurationListKey = o["buildConfigurationList"] as! String
-    //     self.buildConfigurationList = BuildConfigurationList(key: buildConfigurationListKey, objects: objects)!
-    // }
 }

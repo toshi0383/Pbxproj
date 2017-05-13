@@ -21,6 +21,100 @@ extension IsaObject {
 }
 // MARK: NativeTarget
 extension NativeTarget {
+    subscript(field: StringField) -> String {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)!
+        }
+    }
+
+    public var name: String {
+        get { return self[.name] }
+        set(newValue) { self[.name] = newValue }
+    }
+    public var productName: String {
+        get { return self[.productName] }
+        set(newValue) { self[.productName] = newValue }
+    }
+    public var productReference: String {
+        get { return self[.productReference] }
+        set(newValue) { self[.productReference] = newValue }
+    }
+    public var buildConfigurationList: String {
+        get { return self[.buildConfigurationList] }
+        set(newValue) { self[.buildConfigurationList] = newValue }
+    }
+
+
+    subscript(field: RawRepresentableField) -> ProductType {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue.rawValue
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue.rawValue
+            }
+        }
+        get {
+            return ProductType(rawValue: object.string(for: field.rawValue)!)!
+        }
+    }
+
+    subscript(field: OptionalArrayField) -> [StringValue]? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                if let newValue = newValue {
+                    let existing = object[keyref] as! ArrayValue
+                    existing.value = newValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.arrayValue(for: field.rawValue)?.value
+        }
+    }
+
+    public var buildRules: [StringValue]? {
+        get { return self[.buildRules] }
+        set(newValue) { self[.buildRules] = newValue }
+    }
+
+    subscript(field: ArrayField) -> [StringValue] {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! ArrayValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.arrayValue(for: field.rawValue)!.value
+        }
+    }
+
+    public var dependencies: [StringValue] {
+        get { return self[.dependencies] }
+        set(newValue) { self[.dependencies] = newValue }
+    }
+
 }
 // MARK: Pbxproj
 extension Pbxproj {
@@ -68,13 +162,11 @@ extension Pbxproj {
 
     subscript(field: ObjectField) -> Object {
         set(newValue) {
-            let id = object.string(for: field.rawValue)!
-            let keyref = object.keyRef(for: id)!
+            let keyref = object.keyRef(for: field.rawValue)!
             object[keyref] = newValue
         }
         get {
-            let id = object.string(for: field.rawValue)!
-            return object.object(for: id)!
+            return object.object(for: field.rawValue)!
         }
     }
 
@@ -154,7 +246,7 @@ extension Pbxproj {
             }
         }
         get {
-            return object.object(for: field.rawValue)!
+            return objects.object(for: object.string(for: field.rawValue)!)!
         }
     }
 
@@ -234,13 +326,11 @@ extension Project {
 
     subscript(field: ObjectField) -> Object {
         set(newValue) {
-            let id = object.string(for: field.rawValue)!
-            let keyref = object.keyRef(for: id)!
+            let keyref = object.keyRef(for: field.rawValue)!
             object[keyref] = newValue
         }
         get {
-            let id = object.string(for: field.rawValue)!
-            return object.object(for: id)!
+            return object.object(for: field.rawValue)!
         }
     }
 
