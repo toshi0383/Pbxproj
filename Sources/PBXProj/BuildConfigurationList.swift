@@ -36,13 +36,11 @@ public class BuildConfigurationList: IsaObject, ObjectsReferencing {
     // }
 }
 
-typealias BaseConfigurationReference = FileReference
-
 public class BuildConfiguration: IsaObject, ObjectsReferencing {
     enum StringField: String {
         case name
     }
-    enum FileReferencingField: String {
+    enum OptionalFileReferencingField: String {
         case baseConfigurationReference
     }
     enum ObjectField: String {

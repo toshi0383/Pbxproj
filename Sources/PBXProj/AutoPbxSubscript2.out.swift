@@ -46,10 +46,39 @@ extension BuildConfigurationList {
 // MARK: FileReference
 extension FileReference {
 
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 // MARK: Group
 extension Group {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 

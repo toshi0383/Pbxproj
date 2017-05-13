@@ -9,20 +9,25 @@
 import Foundation
 import AsciiPlistParser
 
-//func findPaths(to id: String, objects: Object) -> [String] {
-//    for (k, v) in objects {
-//        if let o = v as? Object, let group = Group(key: k, objects: objects) {
-//            if group.children.contains(id) {
-//                if let path = group.path {
-//                    return findPaths(to: k.value, objects: objects) + [path]
-//                } else {
-//                    return findPaths(to: k.value, objects: objects)
-//                }
-//            }
-//        }
-//    }
-//    return []
-//}
+func findPaths(to fileref: FileReference, objects: Object) -> [String] {
+    let id = objects.filter { ($1 as? Object) == fileref.object }.map { $0.0.value }[0]
+    return _findPaths(to: id, objects: objects)
+}
+func _findPaths(to id: String, objects: Object) -> [String] {
+    for (k, v) in objects {
+        if let o = v as? Object, let isa = o.isa, isa == .PBXGroup {
+            let group = Group(object: o, objects: objects)
+            if group.children.map({ $0.value }).contains(id) {
+                if let path = group.path {
+                    return _findPaths(to: k.value, objects: objects) + [path]
+                } else {
+                    return _findPaths(to: k.value, objects: objects)
+                }
+            }
+        }
+    }
+    return []
+}
 
 //func decodeAsciiPlist<T: PBXObject>(_ object: Object) throws -> T {
 //    return try T.decode(object)

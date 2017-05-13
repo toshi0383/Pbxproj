@@ -21,19 +21,19 @@ final public class Target: IsaObject, ObjectsReferencing {
     enum StringField: String {
         case name
         case productName
-        case productReference // TODO: Can be ObjectIdField ?
+        case productReference // TODO: FileReferencingField
     }
     enum RawRepresentableField: String {
         case productType
     }
     enum OptionalArrayField: String {
-        case buildRules   // TODO: Can be ObjectIdField ?
+        case buildRules   // TODO: [String] or some object?
     }
     enum ArrayField: String {
-        case dependencies // TODO: Can be ObjectIdField ?
+        case dependencies // TODO: [FileReferencingField]
     }
     enum ObjectsReferencingField: String {
-        case buildConfigurationList // TODO: Can be ObjectIdField ?
+        case buildConfigurationList
     }
     public let object: Object
     public let objects: Object

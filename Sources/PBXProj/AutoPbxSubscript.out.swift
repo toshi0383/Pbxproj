@@ -28,6 +28,12 @@ extension BuildConfiguration {
     }
 
 
+    public var baseConfigurationReference: FileReference? {
+        guard let id = object.string(for: "baseConfigurationReference") else {
+            return nil
+        }
+        return FileReference(object: objects.object(for: id)!, objects: objects)
+    }
 
     subscript(field: ObjectField) -> Object {
         set(newValue) {
@@ -52,9 +58,120 @@ extension BuildConfigurationList {
 }
 // MARK: FileReference
 extension FileReference {
+
+    subscript(field: RawRepresentableField) -> LastKnownFileType {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue.rawValue
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue.rawValue
+            }
+        }
+        get {
+            return LastKnownFileType(rawValue: object.string(for: field.rawValue)!)!
+        }
+    }
+
+    subscript(field: StringField) -> String {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)!
+        }
+    }
+
+    public var path: String {
+        get { return self[.path] }
+        set(newValue) { self[.path] = newValue }
+    }
+    public var sourceTree: String {
+        get { return self[.sourceTree] }
+        set(newValue) { self[.sourceTree] = newValue }
+    }
+
 }
 // MARK: Group
 extension Group {
+    subscript(field: ArrayField) -> [StringValue] {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! ArrayValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.arrayValue(for: field.rawValue)!.value
+        }
+    }
+
+    public var children: [StringValue] {
+        get { return self[.children] }
+        set(newValue) { self[.children] = newValue }
+    }
+
+    subscript(field: StringField) -> String {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)!
+        }
+    }
+
+    public var sourceTree: String {
+        get { return self[.sourceTree] }
+        set(newValue) { self[.sourceTree] = newValue }
+    }
+
+    subscript(field: OptionalStringField) -> String? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                if let newValue = newValue {
+                    let existing = object[keyref] as! StringValue
+                    existing.value = newValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)
+        }
+    }
+
+    public var path: String? {
+        get { return self[.path] }
+        set(newValue) { self[.path] = newValue }
+    }
+    public var name: String? {
+        get { return self[.name] }
+        set(newValue) { self[.name] = newValue }
+    }
+
 }
 // MARK: IsaObject
 extension IsaObject {

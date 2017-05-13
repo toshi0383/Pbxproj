@@ -8,6 +8,7 @@ extension PbxprojTests {
     ("testPbxproj", testPbxproj),
     ("testModification", testModification),
     ("testBuildSettings", testBuildSettings),
+    ("testFileReference", testFileReference),
   ]
 }
 

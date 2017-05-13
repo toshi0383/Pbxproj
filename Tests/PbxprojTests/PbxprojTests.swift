@@ -43,4 +43,11 @@ class PbxprojTests: XCTestCase {
         }
         XCTAssert(pbxproj.string().contains("jp.toshi0383.HelloWorld"))
     }
+
+    func testFileReference() {
+        XCTAssertEqual(
+            pbxproj.targets[0].buildConfigurationList.buildConfigurations[0].baseConfigurationReference?.fullPath,
+            ""
+        )
+    }
 }

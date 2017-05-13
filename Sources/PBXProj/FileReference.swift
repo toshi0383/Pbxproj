@@ -13,30 +13,27 @@ public enum FileType: String {
     case xcconfig = "text.xcconfig"
 }
 
-final public class FileReference: IsaObject {
-    public let object: Object
-    public required init(object: Object) {
-        self.object = object
+typealias LastKnownFileType = FileType
+
+final public class FileReference: IsaObject, ObjectsReferencing {
+    enum RawRepresentableField: String {
+        case lastKnownFileType
     }
-    // public var key: String
-    // public var rawObject: [String : Any]
-    // public var lastKnownFileType: FileType
-    // public var path: String
-    // public var sourceTree: String
+    enum StringField: String {
+        case path
+        case sourceTree
+    }
+    public let object: Object
+    public let objects: Object
+    public init(object: Object, objects: Object) {
+        self.object = object
+        self.objects = objects
+    }
+}
 
-    // // custom property
-    // public var fullPath: String
-
-    // public required init?(key: String, value o: [String : Any], objects: [String : Any]) {
-    //     guard IsaType(object: o) == .PBXFileReference else {
-    //         return nil
-    //     }
-    //     self.key = key
-    //     self.rawObject = o
-    //     self.lastKnownFileType = FileType(rawValue: o["lastKnownFileType"] as! String)!
-    //     self.path = o["path"] as! String
-    //     let fullPath = findPaths(to: key, objects: objects) + [self.path]
-    //     self.fullPath = fullPath.joined(separator: "/")
-    //     self.sourceTree = o["sourceTree"] as! String
-    // }
+extension FileReference {
+    public var fullPath: String {
+        let path =  findPaths(to: self, objects: objects) + [self.path]
+        return path.joined(separator: "/")
+    }
 }

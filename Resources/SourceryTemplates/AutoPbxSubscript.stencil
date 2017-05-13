@@ -151,6 +151,24 @@ extension {{ type.name }} {
     }
     {% endif %}
     {% endif %}
+    {% if t.name|hasSuffix:".FileReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    public var {{ c.name }}: FileReference {
+        let id = object.string(for: "{{ c.name }}")!
+        return FileReference(object: objects.object(for: id)!, objects: objects)
+    }
+    {% endif %}
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalFileReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    public var {{ c.name }}: FileReference? {
+        guard let id = object.string(for: "{{ c.name }}") else {
+            return nil
+        }
+        return FileReference(object: objects.object(for: id)!, objects: objects)
+    }
+    {% endif %}
+    {% endif %}
     {% if t.name|hasSuffix:".OptionalStringField" %}
     public var {{ c.name }}: String? {
         get { return self[.{{ c.name }}] }

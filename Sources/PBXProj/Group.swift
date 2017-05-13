@@ -9,9 +9,21 @@
 import Foundation
 import AsciiPlistParser
 
-final public class Group: IsaObject {
+final public class Group: IsaObject, ObjectsReferencing {
+    enum ArrayField: String {
+        case children
+    }
+    enum StringField: String {
+        case sourceTree
+    }
+    enum OptionalStringField: String {
+        case path
+        case name
+    }
     public let object: Object
-    public required init(object: Object) {
+    public let objects: Object
+    public init(object: Object, objects: Object) {
         self.object = object
+        self.objects = objects
     }
 }
