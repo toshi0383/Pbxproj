@@ -8,7 +8,11 @@ Simple read tools are still provided by Apple, so you can go on and use them if 
 e.g. `plutil` or `/usr/libexec/PlistBuddy` from CLI, `PropertyListSerialization` in Foundation.
 
 # Requirements
+## pbxproj version
 Xcode8+ is officially supported, but should work against old ones, too.
+
+## Development
+Swift3.1
 
 # Examples
 ## Update every targets' buildSettings
