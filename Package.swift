@@ -8,7 +8,7 @@ var isDevelopment: Bool {
 }
 
 let package = Package(
-    name: "PBXProj",
+    name: "Pbxproj",
     dependencies: {
         var deps: [Package.Dependency] = [
             .Package(url: "https://github.com/toshi0383/AsciiPlistParser.git", majorVersion: 0),

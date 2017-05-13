@@ -1,6 +1,6 @@
 import XCTest
 import AsciiPlistParser
-@testable import PBXProj
+@testable import Pbxproj
 
 class PbxprojTests: XCTestCase {
     var pbxproj: Pbxproj!
