@@ -40,6 +40,12 @@ See [toshi0383/AsciiPlistParser](https://github.com/toshi0383/AsciiPlistParser) 
 
 # TODOs
 A lot of fundamental features are still work-in-progress.  
+
+- [ ] parse all kind of objects
+- [ ] add useful features like sort
+- [ ] provide CLI interface
+- [ ] add more tests
+
 Contribution is welcomed.
 
 # Development
