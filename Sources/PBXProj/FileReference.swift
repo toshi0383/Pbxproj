@@ -11,13 +11,22 @@ import AsciiPlistParser
 
 public enum FileType: String {
     case xcconfig = "text.xcconfig"
+    case sourcecodeswift = "sourcecode.swift"
+    case filestoryboard = "file.storyboard"
+    case folderassetcatalog = "folder.assetcatalog"
+    case wrapperxcdatamodel = "wrapper.xcdatamodel"
+    case wrappercfbundle = "wrapper.cfbundle"
+    case textplistxml = "text.plist.xml"
+    case wrapperapplication = "wrapper.application"
 }
 
 typealias LastKnownFileType = FileType
+typealias ExplicitFileType = FileType
 
 final public class FileReference: IsaObject, ObjectsReferencing {
-    enum RawRepresentableField: String {
+    enum OptionalRawRepresentableField: String {
         case lastKnownFileType
+        case explicitFileType
     }
     enum StringField: String {
         case path
@@ -36,5 +45,24 @@ extension FileReference {
     public var fullPath: String {
         let path = findPaths(to: self, objects: objects) + [self.path]
         return path.joined(separator: "/")
+    }
+}
+
+extension FileReference {
+    subscript(field: OptionalRawRepresentableField) -> FileType? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue?.rawValue
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue?.rawValue
+            }
+        }
+        get {
+            guard let rawValue = object.string(for: field.rawValue) else {
+                return nil
+            }
+            return FileType(rawValue: rawValue)
+        }
     }
 }

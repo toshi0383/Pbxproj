@@ -110,21 +110,6 @@ extension {{ type.name }} {
 
     {% for c in t.cases %}
     {% if c.name != "nop" %}
-    {% if t.name|hasSuffix:".RawRepresentableField" %}
-    subscript(field: RawRepresentableField) -> {{ c.name|upperFirst }} {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                object[keyref] = newValue.rawValue
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue.rawValue
-            }
-        }
-        get {
-            return {{ c.name|upperFirst }}(rawValue: object.string(for: field.rawValue)!)!
-        }
-    }
-    {% endif %}
     {% if t.name|hasSuffix:".StringField" %}
     public var {{ c.name }}: String {
         get { return self[.{{ c.name }}] }

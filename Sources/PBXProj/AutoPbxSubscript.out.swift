@@ -105,19 +105,6 @@ extension BuildConfigurationList {
 // MARK: FileReference
 extension FileReference {
 
-    subscript(field: RawRepresentableField) -> LastKnownFileType {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                object[keyref] = newValue.rawValue
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue.rawValue
-            }
-        }
-        get {
-            return LastKnownFileType(rawValue: object.string(for: field.rawValue)!)!
-        }
-    }
 
     subscript(field: StringField) -> String {
         set(newValue) {
@@ -495,19 +482,6 @@ extension Target {
     }
 
 
-    subscript(field: RawRepresentableField) -> ProductType {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                object[keyref] = newValue.rawValue
-            } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue.rawValue
-            }
-        }
-        get {
-            return ProductType(rawValue: object.string(for: field.rawValue)!)!
-        }
-    }
 
     subscript(field: OptionalArrayField) -> [StringValue]? {
         set(newValue) {
