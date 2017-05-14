@@ -45,6 +45,15 @@ class PbxprojTests: XCTestCase {
     }
 
     func testFileReference() {
+        let objects = pbxproj.objects
+        let fileref = FileReference(object: pbxproj.objects.object(for: "1F88C5871EB47C3C002A5302")!, objects: objects) // AppDelegate.swift
+        XCTAssertEqual(fileref.isa, .PBXFileReference)
+        XCTAssertEqual(fileref.explicitFileType, nil)
+        XCTAssertEqual(fileref.lastKnownFileType, .sourcecodeswift)
+        XCTAssertEqual(fileref.path, "AppDelegate.swift")
+        XCTAssertEqual(fileref.sourceTree, "\"<group>\"")
+        XCTAssertEqual(fileref.fullPath, "SingleViewApplication/AppDelegate.swift")
+
         // TODO: Needs proper test
         XCTAssertEqual(
             pbxproj.targets[0].buildConfigurationList.buildConfigurations[0].baseConfigurationReference?.fullPath,

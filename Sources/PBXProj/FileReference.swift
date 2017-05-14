@@ -20,9 +20,6 @@ public enum FileType: String {
     case wrapperapplication = "wrapper.application"
 }
 
-typealias LastKnownFileType = FileType
-typealias ExplicitFileType = FileType
-
 final public class FileReference: IsaObject, ObjectsReferencing {
     enum OptionalRawRepresentableField: String {
         case lastKnownFileType
@@ -40,13 +37,8 @@ final public class FileReference: IsaObject, ObjectsReferencing {
     }
 }
 
-// MARK: Useful API
-extension FileReference {
-    public var fullPath: String {
-        let path = findPaths(to: self, objects: objects) + [self.path]
-        return path.joined(separator: "/")
-    }
-}
+public typealias LastKnownFileType = FileType
+public typealias ExplicitFileType = FileType
 
 extension FileReference {
     subscript(field: OptionalRawRepresentableField) -> FileType? {
@@ -64,5 +56,19 @@ extension FileReference {
             }
             return FileType(rawValue: rawValue)
         }
+    }
+    public var lastKnownFileType: LastKnownFileType? {
+        return self[.lastKnownFileType]
+    }
+    public var explicitFileType: ExplicitFileType? {
+        return self[.explicitFileType]
+    }
+}
+
+// MARK: Useful API
+extension FileReference {
+    public var fullPath: String {
+        let path = findPaths(to: self, objects: objects) + [self.path]
+        return path.joined(separator: "/")
     }
 }
