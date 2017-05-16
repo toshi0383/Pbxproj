@@ -6,12 +6,7 @@ class PbxprojTests: XCTestCase {
     var pbxproj: Pbxproj!
     override func setUp() {
         super.setUp()
-        #if Xcode
-            let path = pathForFixture(fileName: "test.pbxproj")
-        #else
-            let path = pathForFixture(fileName: "Xcode/8.3.2/SingleViewApplication/SingleViewApplication.xcodeproj/project.pbxproj")
-        #endif
-        pbxproj = try! Pbxproj(path: path)
+        self.pbxproj = _pbxproj()
     }
     func testPbxproj() {
         XCTAssertEqual(pbxproj.archiveVersion, "1")
@@ -42,22 +37,5 @@ class PbxprojTests: XCTestCase {
             }
         }
         XCTAssert(pbxproj.string().contains("jp.toshi0383.HelloWorld"))
-    }
-
-    func testFileReference() {
-        let objects = pbxproj.objects
-        let fileref = FileReference(object: pbxproj.objects.object(for: "1F88C5871EB47C3C002A5302")!, objects: objects) // AppDelegate.swift
-        XCTAssertEqual(fileref.isa, .PBXFileReference)
-        XCTAssertEqual(fileref.explicitFileType, nil)
-        XCTAssertEqual(fileref.lastKnownFileType, .sourcecodeswift)
-        XCTAssertEqual(fileref.path, "AppDelegate.swift")
-        XCTAssertEqual(fileref.sourceTree, "\"<group>\"")
-        XCTAssertEqual(fileref.fullPath, "SingleViewApplication/AppDelegate.swift")
-
-        // TODO: Needs proper test
-        XCTAssertEqual(
-            pbxproj.targets[0].buildConfigurationList.buildConfigurations[0].baseConfigurationReference?.fullPath,
-           nil
-        )
     }
 }
