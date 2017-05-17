@@ -8,6 +8,7 @@
 
 import Foundation
 import AsciiPlistParser
+import RandomKit
 
 func findPaths(to fileref: FileReference, objects: Object) -> [String] {
     let id = objects.filter { ($1 as? Object) == fileref.object }.map { $0.0.value }[0]
@@ -27,4 +28,18 @@ func _findPaths(to id: String, objects: Object) -> [String] {
         }
     }
     return []
+}
+
+extension Array {
+    func take(_ length: Int) -> Array {
+        if count <= length {
+            return self
+        } else {
+            return self[0..<length].map { $0 }
+        }
+    }
+}
+
+func generateNewId() -> String {
+    return UUID().uuidString.characters.map { String($0) } .filter { $0 != "-" }.take(24).joined()
 }

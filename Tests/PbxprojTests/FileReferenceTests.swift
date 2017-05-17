@@ -25,7 +25,7 @@ class FileReferenceTests: XCTestCase {
         XCTAssertEqual(fileref.explicitFileType, nil)
         XCTAssertEqual(fileref.lastKnownFileType, .sourcecodeswift)
         XCTAssertEqual(fileref.path, "AppDelegate.swift")
-        XCTAssertEqual(fileref.sourceTree, "\"<group>\"")
+        XCTAssertEqual(fileref.sourceTree, .group)
         XCTAssertEqual(fileref.fullPath, "SingleViewApplication/AppDelegate.swift")
 
         // TODO: Needs proper test
@@ -36,17 +36,15 @@ class FileReferenceTests: XCTestCase {
     }
 
     func testAddFileReference() {
-//        let group: Group = Group.create(path: "hoge/foo", group)
-//        group.children.appendChild("Bar.swift")
-//        pbxproj.addFileReference(path: "hoge/foo/Bar.swift", group: "model/hage/uge/Bar.swift")
+        let appTarget = pbxproj.target(named: "SingleViewApplication")!
         let group = pbxproj.groups(named: "SingleViewApplication")[0]
-        group.addFiles(paths: ["hoge/foo/Bar.swift"], copyItemsIfNeeded: false, behaviorForAddedFolders: .createGroups, addToTargets: ["App", "AppTests"], destinationGroup: group)
-        let fileref: FileReference = pbxproj.fileReferences(named: "Bar.swift")[0]
+        try! group.addFiles(paths: ["./hoge/foo/Bar.swift"], copyItemsIfNeeded: false, behaviorForAddedFolders: .createGroups, addToTargets: [appTarget])
+        let fileref: FileReference = pbxproj.fileReferences(named: "./hoge/foo/Bar.swift")[0]
         XCTAssertEqual(fileref.isa, .PBXFileReference)
         XCTAssertEqual(fileref.explicitFileType, nil)
         XCTAssertEqual(fileref.lastKnownFileType, .sourcecodeswift)
         XCTAssertEqual(fileref.path, "hoge/foo/Bar.swift")
-        XCTAssertEqual(fileref.sourceTree, "\"<group>\"")
+        XCTAssertEqual(fileref.sourceTree, .group)
         XCTAssertEqual(fileref.fullPath, "SingleViewApplication/AppDelegate.swift")
     }
 }

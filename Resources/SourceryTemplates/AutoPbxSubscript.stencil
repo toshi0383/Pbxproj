@@ -14,7 +14,8 @@ extension {{ type.name }} {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -31,7 +32,7 @@ extension {{ type.name }} {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                object[keyref] = ArrayValue(value: newValue)
             }
         }
         get {
@@ -63,7 +64,11 @@ extension {{ type.name }} {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = StringValue(value: newValue, annotation: nil)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -84,7 +89,11 @@ extension {{ type.name }} {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = ArrayValue(value: newValue)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {

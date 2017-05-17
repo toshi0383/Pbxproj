@@ -59,6 +59,10 @@ extension Pbxproj {
         }
     }
 
+    public func target(named: String) -> Target? {
+        return targets.filter { $0.name == named }.first
+    }
+
     public func fileReferences() -> [FileReference] {
         return objects.flatMap { $0.1 as? Object }.filter { $0.isa == .PBXFileReference }.map { FileReference(object: $0, objects: objects) }
     }

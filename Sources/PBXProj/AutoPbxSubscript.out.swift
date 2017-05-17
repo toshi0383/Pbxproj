@@ -14,7 +14,8 @@ extension BuildConfiguration {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -67,7 +68,11 @@ extension BuildConfigurationList {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = StringValue(value: newValue, annotation: nil)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -88,7 +93,8 @@ extension BuildConfigurationList {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -106,6 +112,8 @@ extension BuildConfigurationList {
 extension FileReference {
 
 
+
+
     subscript(field: StringField) -> String {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
@@ -114,7 +122,8 @@ extension FileReference {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -125,10 +134,6 @@ extension FileReference {
     public var path: String {
         get { return self[.path] }
         set(newValue) { self[.path] = newValue }
-    }
-    public var sourceTree: String {
-        get { return self[.sourceTree] }
-        set(newValue) { self[.sourceTree] = newValue }
     }
 
     subscript(field: OptionalStringField) -> String? {
@@ -143,7 +148,11 @@ extension FileReference {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = StringValue(value: newValue, annotation: nil)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -167,7 +176,7 @@ extension Group {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                object[keyref] = ArrayValue(value: newValue)
             }
         }
         get {
@@ -188,7 +197,8 @@ extension Group {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -213,7 +223,11 @@ extension Group {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = StringValue(value: newValue, annotation: nil)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -247,7 +261,8 @@ extension Pbxproj {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -272,7 +287,7 @@ extension Pbxproj {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                object[keyref] = ArrayValue(value: newValue)
             }
         }
         get {
@@ -308,7 +323,11 @@ extension Pbxproj {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = StringValue(value: newValue, annotation: nil)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -329,7 +348,11 @@ extension Pbxproj {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = ArrayValue(value: newValue)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -374,7 +397,8 @@ extension RootObject {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -411,7 +435,7 @@ extension RootObject {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                object[keyref] = ArrayValue(value: newValue)
             }
         }
         get {
@@ -455,7 +479,11 @@ extension RootObject {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = StringValue(value: newValue, annotation: nil)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -487,7 +515,8 @@ extension Target {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -522,7 +551,11 @@ extension Target {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = ArrayValue(value: newValue)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -543,7 +576,7 @@ extension Target {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                object[keyref] = ArrayValue(value: newValue)
             }
         }
         get {
