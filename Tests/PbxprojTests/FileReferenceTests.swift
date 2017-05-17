@@ -7,6 +7,8 @@
 //
 
 import XCTest
+import AsciiPlistParser
+@testable import Pbxproj
 
 class FileReferenceTests: XCTestCase {
 
@@ -37,10 +39,7 @@ class FileReferenceTests: XCTestCase {
 //        let group: Group = Group.create(path: "hoge/foo", group)
 //        group.children.appendChild("Bar.swift")
 //        pbxproj.addFileReference(path: "hoge/foo/Bar.swift", group: "model/hage/uge/Bar.swift")
-        guard let group = pbxproj.group(named: "SingleViewApplication") else {
-            XCTFail()
-            return
-        }
+        let group = pbxproj.groups(named: "SingleViewApplication")[0]
         group.addFiles(paths: ["hoge/foo/Bar.swift"], copyItemsIfNeeded: false, behaviorForAddedFolders: .createGroups, addToTargets: ["App", "AppTests"], destinationGroup: group)
         let fileref: FileReference = pbxproj.fileReferences(named: "Bar.swift")[0]
         XCTAssertEqual(fileref.isa, .PBXFileReference)

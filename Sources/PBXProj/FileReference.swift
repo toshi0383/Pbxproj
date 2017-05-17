@@ -29,6 +29,9 @@ final public class FileReference: IsaObject, ObjectsReferencing {
         case path
         case sourceTree
     }
+    enum OptionalStringField: String {
+        case name
+    }
     public let object: Object
     public let objects: Object
     public init(object: Object, objects: Object) {

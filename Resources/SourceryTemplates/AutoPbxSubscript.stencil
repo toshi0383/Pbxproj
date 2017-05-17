@@ -136,6 +136,24 @@ extension {{ type.name }} {
     }
     {% endif %}
     {% endif %}
+    {% if t.name|hasSuffix:".GroupReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    public var {{ c.name }}: Group {
+        let id = object.string(for: "{{ c.name }}")!
+        return Group(object: objects.object(for: id)!, objects: objects)
+    }
+    {% endif %}
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalGroupReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    public var {{ c.name }}: Group? {
+        guard let id = object.string(for: "{{ c.name }}") else {
+            return nil
+        }
+        return Group(object: objects.object(for: id)!, objects: objects)
+    }
+    {% endif %}
+    {% endif %}
     {% if t.name|hasSuffix:".FileReferencingField" %}
     {% if type.implements.ObjectsReferencing %}
     public var {{ c.name }}: FileReference {

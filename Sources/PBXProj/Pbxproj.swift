@@ -58,4 +58,20 @@ extension Pbxproj {
             return rootObject.targets
         }
     }
+
+    public func fileReferences() -> [FileReference] {
+        return objects.flatMap { $0.1 as? Object }.filter { $0.isa == .PBXFileReference }.map { FileReference(object: $0, objects: objects) }
+    }
+
+    public func groups() -> [Group] {
+        return objects.flatMap { $0.1 as? Object }.filter { $0.isa == .PBXGroup }.map { Group(object: $0, objects: objects) }
+    }
+
+    public func fileReferences(named: String) -> [FileReference] {
+        return fileReferences().filter { $0.path == named || $0.name == named }
+    }
+
+    public func groups(named: String) -> [Group] {
+        return groups().filter { $0.path == named || $0.name == named }
+    }
 }

@@ -131,6 +131,31 @@ extension FileReference {
         set(newValue) { self[.sourceTree] = newValue }
     }
 
+    subscript(field: OptionalStringField) -> String? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                if let newValue = newValue {
+                    let existing = object[keyref] as! StringValue
+                    existing.value = newValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)
+        }
+    }
+
+    public var name: String? {
+        get { return self[.name] }
+        set(newValue) { self[.name] = newValue }
+    }
+
 }
 // MARK: Group
 extension Group {
@@ -369,10 +394,6 @@ extension RootObject {
         get { return self[.hasScannedForEncodings] }
         set(newValue) { self[.hasScannedForEncodings] = newValue }
     }
-    public var mainGroup: String {
-        get { return self[.mainGroup] }
-        set(newValue) { self[.mainGroup] = newValue }
-    }
     public var productRefGroup: String {
         get { return self[.productRefGroup] }
         set(newValue) { self[.productRefGroup] = newValue }
@@ -448,6 +469,12 @@ extension RootObject {
     }
 
 
+
+
+    public var mainGroup: Group {
+        let id = object.string(for: "mainGroup")!
+        return Group(object: objects.object(for: id)!, objects: objects)
+    }
 
 }
 // MARK: Target
