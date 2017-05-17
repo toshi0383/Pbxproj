@@ -39,12 +39,12 @@ class FileReferenceTests: XCTestCase {
         let appTarget = pbxproj.target(named: "SingleViewApplication")!
         let group = pbxproj.groups(named: "SingleViewApplication")[0]
         try! group.addFiles(paths: ["./hoge/foo/Bar.swift"], copyItemsIfNeeded: false, behaviorForAddedFolders: .createGroups, addToTargets: [appTarget])
-        let fileref: FileReference = pbxproj.fileReferences(named: "./hoge/foo/Bar.swift")[0]
+        let fileref: FileReference = pbxproj.fileReferences(named: "hoge/foo/Bar.swift")[0]
         XCTAssertEqual(fileref.isa, .PBXFileReference)
         XCTAssertEqual(fileref.explicitFileType, nil)
         XCTAssertEqual(fileref.lastKnownFileType, .sourcecodeswift)
         XCTAssertEqual(fileref.path, "hoge/foo/Bar.swift")
         XCTAssertEqual(fileref.sourceTree, .group)
-        XCTAssertEqual(fileref.fullPath, "SingleViewApplication/AppDelegate.swift")
+        XCTAssertEqual(fileref.fullPath, "SingleViewApplication/hoge/foo/Bar.swift")
     }
 }

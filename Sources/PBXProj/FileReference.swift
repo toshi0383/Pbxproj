@@ -116,15 +116,10 @@ extension FileReference {
         let fileref = FileReference(object: [:], objects: [:])
         fileref[.lastKnownFileType] = .sourcecodeswift
         fileref[.sourceTree] = .group
-        fileref[.path] = path.string
+        fileref[.path] = path.normalize().string
         fileref.object["isa"] = StringValue(value: IsaType.PBXFileReference.rawValue, annotation: nil)
         assert(fileref.isa == .PBXFileReference)
         return fileref
-        // return FileReference.lastKnownFileType(.sourcecodeswift)
-        //     .path(path.string)
-        //     .sourceTree(.group)
-        //     .fileEncodings("4")
-        //     .build()
     }
 }
 
