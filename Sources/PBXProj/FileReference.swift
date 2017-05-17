@@ -39,6 +39,7 @@ final public class FileReference: IsaObject, ObjectsReferencing {
     }
     enum OptionalStringField: String {
         case name
+        case fileEncoding
     }
     public let object: Object
     public let objects: Object
@@ -116,6 +117,9 @@ extension FileReference {
         let fileref = FileReference(object: [:], objects: [:])
         fileref[.lastKnownFileType] = .sourcecodeswift
         fileref[.sourceTree] = .group
+        fileref[.fileEncoding] = "4"
+        let filename = path.components.last!
+        fileref[.name] = filename
         fileref[.path] = path.normalize().string
         fileref.object["isa"] = StringValue(value: IsaType.PBXFileReference.rawValue, annotation: nil)
         assert(fileref.isa == .PBXFileReference)

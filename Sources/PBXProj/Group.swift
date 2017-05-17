@@ -52,8 +52,10 @@ extension Group {
     func _addFileReference(path: Path, copyItemsIfNeeded: Bool = false, behaviorForAddedFolders: BehaviorForAddedFolders = .createGroups, addToTargets targets: [Target] = []) throws {
         let fileref = FileReference.create(path: path)
         let filerefId = generateNewId()
-        objects[filerefId] = fileref.object
-        children.append(StringValue(value: filerefId, annotation: path.components.last!))
+        let filename = path.components.last!
+        let keyref = KeyRef(value: filerefId, annotation: filename)
+        objects[keyref] = fileref.object
+        children.append(StringValue(value: filerefId, annotation: filename))
     }
     func _addGroup(path: Path, copyItemsIfNeeded: Bool = false, behaviorForAddedFolders: BehaviorForAddedFolders = .createGroups, addToTargets targets: [Target] = []) throws {
     }

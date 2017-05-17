@@ -46,5 +46,6 @@ class FileReferenceTests: XCTestCase {
         XCTAssertEqual(fileref.path, "hoge/foo/Bar.swift")
         XCTAssertEqual(fileref.sourceTree, .group)
         XCTAssertEqual(fileref.fullPath, "SingleViewApplication/hoge/foo/Bar.swift")
+        XCTAssert(pbxproj.string().contains("/* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bar.swift; path = hoge/foo/Bar.swift; sourceTree = \"<group>\"; };"))
     }
 }

@@ -164,6 +164,10 @@ extension FileReference {
         get { return self[.name] }
         set(newValue) { self[.name] = newValue }
     }
+    public var fileEncoding: String? {
+        get { return self[.fileEncoding] }
+        set(newValue) { self[.fileEncoding] = newValue }
+    }
 
 }
 // MARK: Group
