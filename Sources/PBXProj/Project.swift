@@ -19,7 +19,7 @@ public class RootObject: IsaObject, ObjectsReferencing {
     enum OptionalStringField: String {
         case projectRoot
     }
-    enum ObjectsReferencingArrayField {
+    enum ObjectReferencingArrayField {
         case targets
     }
     enum GroupReferencingField {

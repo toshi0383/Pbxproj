@@ -4,6 +4,9 @@
 
 import AsciiPlistParser
 
+// MARK: AnyIsaObject
+extension AnyIsaObject {
+}
 // MARK: BuildConfiguration
 extension BuildConfiguration {
     subscript(field: StringField) -> String {
@@ -105,6 +108,81 @@ extension BuildConfigurationList {
     public var defaultConfigurationIsVisible: String {
         get { return self[.defaultConfigurationIsVisible] }
         set(newValue) { self[.defaultConfigurationIsVisible] = newValue }
+    }
+
+}
+// MARK: BuildFile
+extension BuildFile {
+    subscript(field: StringField) -> String {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)!
+        }
+    }
+
+    public var fileRef: String {
+        get { return self[.fileRef] }
+        set(newValue) { self[.fileRef] = newValue }
+    }
+
+}
+// MARK: BuildPhase
+extension BuildPhase {
+    subscript(field: StringField) -> String {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
+            }
+        }
+        get {
+            return object.string(for: field.rawValue)!
+        }
+    }
+
+    public var buildActionMask: String {
+        get { return self[.buildActionMask] }
+        set(newValue) { self[.buildActionMask] = newValue }
+    }
+    public var runOnlyForDeploymentPostprocessing: String {
+        get { return self[.runOnlyForDeploymentPostprocessing] }
+        set(newValue) { self[.runOnlyForDeploymentPostprocessing] = newValue }
+    }
+
+    subscript(field: ArrayField) -> [StringValue] {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! ArrayValue
+                existing.value = newValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = ArrayValue(value: newValue)
+            }
+        }
+        get {
+            return object.arrayValue(for: field.rawValue)!.value
+        }
+    }
+
+    public var files: [StringValue] {
+        get { return self[.files] }
+        set(newValue) { self[.files] = newValue }
     }
 
 }
@@ -598,5 +676,7 @@ extension Target {
         let id = object.string(for: "buildConfigurationList")!
         return BuildConfigurationList(object: objects.object(for: id)!, objects: objects)
     }
+
+
 
 }

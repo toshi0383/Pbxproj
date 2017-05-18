@@ -53,9 +53,21 @@ extension Group {
         let fileref = FileReference.create(path: path)
         let filerefId = generateNewId()
         let filename = path.components.last!
-        let keyref = KeyRef(value: filerefId, annotation: filename)
-        objects[keyref] = fileref.object
-        children.append(StringValue(value: filerefId, annotation: filename))
+        let fkeyref = KeyRef(value: filerefId, annotation: filename)
+        objects[fkeyref] = fileref.object
+        children.append(fkeyref)
+        if targets.isEmpty {
+            return
+        }
+        let buildfile = BuildFile.create(fileRef: filerefId).anyIsaObject
+        let buildfileId = generateNewId()
+        let annotation = "\(filename) in Sources"
+        let bkeyref = KeyRef(value: buildfileId, annotation: annotation)
+        for target in targets {
+            let sourcesBuildPhase = target.buildPhases.filter { $0.isa == .PBXSourcesBuildPhase }[0]
+            sourcesBuildPhase.files.append(bkeyref)
+            objects[bkeyref] = buildfile.object
+        }
     }
     func _addGroup(path: Path, copyItemsIfNeeded: Bool = false, behaviorForAddedFolders: BehaviorForAddedFolders = .createGroups, addToTargets targets: [Target] = []) throws {
     }

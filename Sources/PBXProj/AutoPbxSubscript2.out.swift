@@ -5,8 +5,16 @@
 import AsciiPlistParser
 
 
+// MARK: AnyIsaObject
+extension AnyIsaObject {
+
+}
+
 // MARK: BuildConfiguration
 extension BuildConfiguration {
+
+
+
 
 
 
@@ -51,10 +59,52 @@ extension BuildConfigurationList {
 
 
 
+
+
+
+}
+
+// MARK: BuildFile
+extension BuildFile {
+
+
+
+
+
+
+
+}
+
+// MARK: BuildPhase
+extension BuildPhase {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 // MARK: FileReference
 extension FileReference {
+
+
+
+
+
+
+
+
 
 
 
@@ -100,6 +150,10 @@ extension Group {
 
 
 
+
+
+
+
 }
 
 // MARK: IsaObject
@@ -114,6 +168,14 @@ extension ObjectsReferencing {
 
 // MARK: Pbxproj
 extension Pbxproj {
+
+
+
+
+
+
+
+
 
 
 
@@ -192,10 +254,21 @@ extension RootObject {
 
 
 
+
+
+
+
+
+
+
+
+
     public var targets: [Target] {
         let ids = object.stringArray(for: "targets")!
         return ids.map(objectTuple).map(Target.init)
     }
+
+
 
 
 
@@ -234,6 +307,27 @@ extension Target {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public var buildPhases: [BuildPhase] {
+        let ids = object.stringArray(for: "buildPhases")!
+        return ids.map(objectTuple).map(BuildPhase.init)
+    }
 
 
 

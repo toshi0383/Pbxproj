@@ -10,7 +10,7 @@ import Foundation
 import AsciiPlistParser
 
 public class BuildConfigurationList: IsaObject, ObjectsReferencing {
-    enum ObjectsReferencingArrayField {
+    enum ObjectReferencingArrayField {
         case buildConfigurations
     }
     enum OptionalStringField: String {

@@ -35,6 +35,9 @@ final public class Target: IsaObject, ObjectsReferencing {
     enum ObjectsReferencingField: String {
         case buildConfigurationList
     }
+    enum ObjectReferencingArrayField: String {
+        case buildPhases
+    }
     public let object: Object
     public let objects: Object
     public init(object: Object, objects: Object) {

@@ -8,7 +8,6 @@
 
 import Foundation
 import AsciiPlistParser
-import RandomKit
 
 func findPaths(to fileref: FileReference, objects: Object) -> [String] {
     let id = objects.filter { ($1 as? Object) == fileref.object }.map { $0.0.value }[0]
