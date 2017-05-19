@@ -53,3 +53,13 @@ extension IsaObject {
         set(newValue) { object["isa"] = newValue.rawValue }
     }
 }
+
+public class AnyIsaObject: IsaObject, ObjectsReferencing {
+    public let object: Object
+    public let objects: Object
+    public init(object: Object, objects: Object) {
+        assert(object.isa != nil)
+        self.object = object
+        self.objects = objects
+    }
+}
