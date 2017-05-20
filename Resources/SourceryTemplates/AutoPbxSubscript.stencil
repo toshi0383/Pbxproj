@@ -1,6 +1,6 @@
 import AsciiPlistParser
 
-{% for type in types.implementing.AutoPbxSubscript %}
+{% for type in types.implementing.AutoPbxSubscript|class %}
 // MARK: {{ type.name }}
 extension {{ type.name }} {
 {% for t in type.containedTypes %}

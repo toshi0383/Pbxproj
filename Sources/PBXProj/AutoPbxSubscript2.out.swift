@@ -156,16 +156,6 @@ extension Group {
 
 }
 
-// MARK: IsaObject
-extension IsaObject {
-
-}
-
-// MARK: ObjectsReferencing
-extension ObjectsReferencing {
-
-}
-
 // MARK: Pbxproj
 extension Pbxproj {
 
