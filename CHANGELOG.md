@@ -14,6 +14,10 @@
   [#4](https://github.com/toshi0383/Pbxproj/pull/4)
 
 ##### Bug Fix
+* Mutable baseConfigurationReference  
+  [Toshihiro Suzuki](https://github.com/toshi0383)
+  [#5](https://github.com/toshi0383/Pbxproj/pull/5)
+
 * Fix rootObject.buildConfigurationList return type  
   [Toshihiro Suzuki](https://github.com/toshi0383)
   [#3](https://github.com/toshi0383/Pbxproj/pull/3)
