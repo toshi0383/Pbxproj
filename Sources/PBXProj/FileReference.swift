@@ -27,7 +27,7 @@ public enum SourceTree: String {
 }
 
 final public class FileReference: IsaObject, ObjectsReferencing {
-    enum OptionalRawRepresentableField: String {
+    enum OptionalFileTypeField: String {
         case lastKnownFileType
         case explicitFileType
     }
@@ -46,69 +46,6 @@ final public class FileReference: IsaObject, ObjectsReferencing {
     public init(object: Object, objects: Object) {
         self.object = object
         self.objects = objects
-    }
-}
-
-public typealias LastKnownFileType = FileType
-public typealias ExplicitFileType = FileType
-
-extension FileReference {
-    subscript(field: OptionalRawRepresentableField) -> FileType? {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                if let rawValue = newValue?.rawValue {
-                    let existing = object[keyref] as! StringValue
-                    existing.value = rawValue
-                    object[keyref] = existing
-                } else {
-                    object[keyref] = nil
-                }
-            } else {
-                if let rawValue = newValue?.rawValue {
-                    let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                    object[keyref] = StringValue(value: rawValue, annotation: nil)
-                }
-            }
-        }
-        get {
-            guard let rawValue = object.string(for: field.rawValue) else {
-                return nil
-            }
-            return FileType(rawValue: rawValue)
-        }
-    }
-    subscript(field: RawRepresentableField) -> SourceTree? {
-        set(newValue) {
-            if let keyref = object.keyRef(for: field.rawValue) {
-                if let rawValue = newValue?.rawValue {
-                    let existing = object[keyref] as! StringValue
-                    existing.value = rawValue
-                    object[keyref] = existing
-                } else {
-                    object[keyref] = nil
-                }
-            } else {
-                if let rawValue = newValue?.rawValue {
-                    let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                    object[keyref] = StringValue(value: rawValue, annotation: nil)
-                }
-            }
-        }
-        get {
-            guard let rawValue = object.string(for: field.rawValue) else {
-                return nil
-            }
-            return SourceTree(rawValue: rawValue)
-        }
-    }
-    public var lastKnownFileType: LastKnownFileType? {
-        return self[.lastKnownFileType]
-    }
-    public var explicitFileType: ExplicitFileType? {
-        return self[.explicitFileType]
-    }
-    public var sourceTree: SourceTree? {
-        return self[.sourceTree]
     }
 }
 

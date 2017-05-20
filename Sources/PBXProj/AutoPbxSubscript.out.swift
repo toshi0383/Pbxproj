@@ -188,8 +188,57 @@ extension BuildPhase {
 }
 // MARK: FileReference
 extension FileReference {
+    subscript(field: OptionalFileTypeField) -> FileType? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                if let rawValue = newValue?.rawValue {
+                    let existing = object[keyref] as! StringValue
+                    existing.value = rawValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
+            } else {
+                if let rawValue = newValue?.rawValue {
+                    let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                    object[keyref] = StringValue(value: rawValue, annotation: nil)
+                }
+            }
+        }
+        get {
+            guard let rawValue = object.string(for: field.rawValue) else {
+                return nil
+            }
+            return FileType(rawValue: rawValue)
+        }
+    }
+    public var lastKnownFileType: FileType? {
+        return self[.lastKnownFileType]
+    }
+    public var explicitFileType: FileType? {
+        return self[.explicitFileType]
+    }
 
 
+    subscript(field: RawRepresentableField) -> SourceTree {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue.rawValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = StringValue(value: newValue.rawValue, annotation: nil)
+            }
+        }
+        get {
+            let rawValue = object.string(for: field.rawValue)!
+            return SourceTree(rawValue: rawValue)!
+        }
+    }
+    public var sourceTree: SourceTree {
+        return self[.sourceTree]
+    }
 
 
     subscript(field: StringField) -> String {
@@ -271,27 +320,26 @@ extension Group {
         set(newValue) { self[.children] = newValue }
     }
 
-    subscript(field: StringField) -> String {
+    subscript(field: RawRepresentableField) -> SourceTree {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
                 let existing = object[keyref] as! StringValue
-                existing.value = newValue
+                existing.value = newValue.rawValue
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                let stringValue = StringValue(value: newValue, annotation: nil)
-                object[keyref] = stringValue
+                object[keyref] = StringValue(value: newValue.rawValue, annotation: nil)
             }
         }
         get {
-            return object.string(for: field.rawValue)!
+            let rawValue = object.string(for: field.rawValue)!
+            return SourceTree(rawValue: rawValue)!
         }
     }
-
-    public var sourceTree: String {
-        get { return self[.sourceTree] }
-        set(newValue) { self[.sourceTree] = newValue }
+    public var sourceTree: SourceTree {
+        return self[.sourceTree]
     }
+
 
     subscript(field: OptionalStringField) -> String? {
         set(newValue) {
@@ -613,6 +661,25 @@ extension Target {
         set(newValue) { self[.productReference] = newValue }
     }
 
+    subscript(field: RawRepresentableField) -> ProductType {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue.rawValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = StringValue(value: newValue.rawValue, annotation: nil)
+            }
+        }
+        get {
+            let rawValue = object.string(for: field.rawValue)!
+            return ProductType(rawValue: rawValue)!
+        }
+    }
+    public var productType: ProductType {
+        return self[.productType]
+    }
 
 
     subscript(field: OptionalArrayField) -> [StringValue]? {

@@ -5,6 +5,60 @@ import AsciiPlistParser
 extension {{ type.name }} {
 {% for t in type.containedTypes %}
 {% if t.kind == "enum" %}
+    {% if t.name|hasSuffix:".OptionalFileTypeField" %}
+    subscript(field: OptionalFileTypeField) -> FileType? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                if let rawValue = newValue?.rawValue {
+                    let existing = object[keyref] as! StringValue
+                    existing.value = rawValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
+            } else {
+                if let rawValue = newValue?.rawValue {
+                    let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                    object[keyref] = StringValue(value: rawValue, annotation: nil)
+                }
+            }
+        }
+        get {
+            guard let rawValue = object.string(for: field.rawValue) else {
+                return nil
+            }
+            return FileType(rawValue: rawValue)
+        }
+    }
+    {% for c in t.cases %}
+    public var {{ c.name }}: FileType? {
+        return self[.{{ c.name }}]
+    }
+    {% endfor %}
+    {% endif %}
+    {% if t.name|hasSuffix:".RawRepresentableField" %}
+    {% for c in t.cases %}
+    subscript(field: RawRepresentableField) -> {{ c.name|upperFirst }} {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                let existing = object[keyref] as! StringValue
+                existing.value = newValue.rawValue
+                object[keyref] = existing
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = StringValue(value: newValue.rawValue, annotation: nil)
+            }
+        }
+        get {
+            let rawValue = object.string(for: field.rawValue)!
+            return {{ c.name|upperFirst }}(rawValue: rawValue)!
+        }
+    }
+    public var {{ c.name }}: {{ c.name|upperFirst }} {
+        return self[.{{ c.name }}]
+    }
+    {% endfor %}
+    {% endif %}
     {% if t.name|hasSuffix:".StringField" %}
     subscript(field: StringField) -> String {
         set(newValue) {
