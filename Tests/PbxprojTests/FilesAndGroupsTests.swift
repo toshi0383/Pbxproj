@@ -64,11 +64,10 @@ class FilesAndGroupsTests: XCTestCase {
 
     func testAddAFolderAsGroup() {
         // mkdir and touch a file
-        let dir = Path("hoge/foo")
-        try! dir.mkpath()
-        let file = dir + "Bar.swift"
-        try! file.write("")
-        
+        for path in ["hoge/foo/Bar.xcconfig", "hoge/foo/Foo.xcconfig", "hoge/foo/bar/Age.xcconfig"] {
+            createPathAndFiles(path: path)
+        }
+
         // test code
         let g = pbxproj.rootObject.mainGroup
         try! g.addFiles(paths: ["./hoge/foo"], copyItemsIfNeeded: false, behaviorForAddedFolders: .createGroups, addToTargets: [])
@@ -79,20 +78,30 @@ class FilesAndGroupsTests: XCTestCase {
         }
         XCTAssertEqual(group.isa, .PBXGroup)
         XCTAssertEqual(group.path, "hoge/foo")
-        XCTAssertEqual(group.children.count, 1)
+        XCTAssertEqual(group.children.count, 3)
         XCTAssertEqual(group.sourceTree, .group)
-        guard let fileref = pbxproj.fileReferences(named: "Bar.swift").first else {
+        guard let fileref = pbxproj.fileReferences(named: "Bar.xcconfig").first else {
             XCTFail("fileReferences not found.")
             print(pbxproj.string())
             return
         }
         XCTAssertEqual(fileref.isa, .PBXFileReference)
         XCTAssertEqual(fileref.explicitFileType, nil)
-        XCTAssertEqual(fileref.lastKnownFileType, .sourcecodeswift)
-        XCTAssertEqual(fileref.path, "Bar.swift")
+        XCTAssertEqual(fileref.lastKnownFileType, .xcconfig)
+        XCTAssertEqual(fileref.path, "Bar.xcconfig")
         XCTAssertEqual(fileref.sourceTree, .group)
-        XCTAssertEqual(fileref.fullPath, "hoge/foo/Bar.swift")
-        XCTAssert(pbxproj.string().contains("/* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bar.swift; path = Bar.swift; sourceTree = \"<group>\"; };"))
+        XCTAssertEqual(fileref.fullPath, "hoge/foo/Bar.xcconfig")
+        let expected = "/* Bar.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Bar.xcconfig; path = Bar.xcconfig; sourceTree = \"<group>\"; };"
+        if pbxproj.string().contains(expected) == false {
+            XCTFail("pbxproj.string() does not contain expected string. \(expected)")
+            print(pbxproj.string())
+        }
+        guard let agefileref = pbxproj.fileReferences(named: "Age.xcconfig").first else {
+            XCTFail("fileReferences not found.")
+            print(pbxproj.string())
+            return
+        }
+        XCTAssertEqual(agefileref.fullPath, "hoge/foo/bar/Age.xcconfig")
     }
 
 }
