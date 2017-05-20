@@ -192,7 +192,7 @@ extension {{ type.name }} {
         set(newValue) { self[.{{ c.name }}] = newValue }
     }
     {% endif %}
-    {% if t.name|hasSuffix:".ObjectsReferencingField" %}
+    {% if t.name|hasSuffix:".ObjectReferencingField" %}
     {% if type.implements.ObjectsReferencing %}
     public var {{ c.name }}: {{ c.name|upperFirst }} {
         let id = object.string(for: "{{ c.name }}")!

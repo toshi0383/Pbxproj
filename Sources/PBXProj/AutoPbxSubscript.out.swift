@@ -588,9 +588,11 @@ extension RootObject {
         get { return self[.attributes] }
         set(newValue) { self[.attributes] = newValue }
     }
-    public var buildConfigurationList: Object {
-        get { return self[.buildConfigurationList] }
-        set(newValue) { self[.buildConfigurationList] = newValue }
+
+
+    public var buildConfigurationList: BuildConfigurationList {
+        let id = object.string(for: "buildConfigurationList")!
+        return BuildConfigurationList(object: objects.object(for: id)!, objects: objects)
     }
 
     subscript(field: OptionalStringField) -> String? {

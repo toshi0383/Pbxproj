@@ -30,7 +30,7 @@ public class Pbxproj: AutoPbxSubscript, ObjectsReferencing {
     enum OptionalObjectField: String {
         case classes
     }
-    enum ObjectsReferencingField: String {
+    enum ObjectReferencingField: String {
         case rootObject
     }
 
@@ -51,11 +51,10 @@ public class Pbxproj: AutoPbxSubscript, ObjectsReferencing {
     }
 }
 
-// MARK: Alias Access API
+// MARK: - Public API
+
+// MARK: Files and Groups API
 extension Pbxproj {
-    public var targets: [Target] {
-        return rootObject.targets
-    }
     public func buildFiles() -> [BuildFile] {
         return objects.flatMap { $0.1 as? Object }.filter { $0.isa == .PBXBuildFile }.map { BuildFile(object: $0, objects: objects) }
     }
@@ -93,5 +92,12 @@ extension Pbxproj {
 
     public func groups(named: String) -> [Group] {
         return groups().filter { $0.path == named || $0.name == named }
+    }
+}
+
+// MARK: Shorthand Alias API
+extension Pbxproj {
+    public var targets: [Target] {
+        return rootObject.targets
     }
 }
