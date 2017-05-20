@@ -28,3 +28,17 @@ func _findPaths(to id: String, objects: Object) -> [String] {
     }
     return []
 }
+
+extension Array {
+    func take(_ length: Int) -> Array {
+        if count <= length {
+            return self
+        } else {
+            return self[0..<length].map { $0 }
+        }
+    }
+}
+
+func generateNewId() -> String {
+    return UUID().uuidString.characters.map { String($0) } .filter { $0 != "-" }.take(24).joined()
+}

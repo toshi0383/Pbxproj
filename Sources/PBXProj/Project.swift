@@ -6,7 +6,6 @@ public class RootObject: IsaObject, ObjectsReferencing {
         case compatibilityVersion
         case developmentRegion
         case hasScannedForEncodings
-        case mainGroup
         case productRefGroup // Can be represented as Object
         case projectDirPath
     }
@@ -20,8 +19,11 @@ public class RootObject: IsaObject, ObjectsReferencing {
     enum OptionalStringField: String {
         case projectRoot
     }
-    enum ObjectsReferencingArrayField {
+    enum ObjectReferencingArrayField {
         case targets
+    }
+    enum GroupReferencingField {
+        case mainGroup
     }
     public let object: Object
     public let objects: Object

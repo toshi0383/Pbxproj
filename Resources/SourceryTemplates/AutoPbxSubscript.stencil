@@ -14,7 +14,8 @@ extension {{ type.name }} {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                let stringValue = StringValue(value: newValue, annotation: nil)
+                object[keyref] = stringValue
             }
         }
         get {
@@ -31,7 +32,7 @@ extension {{ type.name }} {
                 object[keyref] = existing
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                object[keyref] = ArrayValue(value: newValue)
             }
         }
         get {
@@ -63,7 +64,11 @@ extension {{ type.name }} {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = StringValue(value: newValue, annotation: nil)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -84,7 +89,11 @@ extension {{ type.name }} {
                 }
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue
+                if let newValue = newValue {
+                    object[keyref] = ArrayValue(value: newValue)
+                } else {
+                    object[keyref] = nil
+                }
             }
         }
         get {
@@ -133,6 +142,24 @@ extension {{ type.name }} {
     public var {{ c.name }}: {{ c.name|upperFirst }} {
         let id = object.string(for: "{{ c.name }}")!
         return {{ c.name|upperFirst }}(object: objects.object(for: id)!, objects: objects)
+    }
+    {% endif %}
+    {% endif %}
+    {% if t.name|hasSuffix:".GroupReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    public var {{ c.name }}: Group {
+        let id = object.string(for: "{{ c.name }}")!
+        return Group(object: objects.object(for: id)!, objects: objects)
+    }
+    {% endif %}
+    {% endif %}
+    {% if t.name|hasSuffix:".OptionalGroupReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    public var {{ c.name }}: Group? {
+        guard let id = object.string(for: "{{ c.name }}") else {
+            return nil
+        }
+        return Group(object: objects.object(for: id)!, objects: objects)
     }
     {% endif %}
     {% endif %}

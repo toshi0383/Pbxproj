@@ -31,21 +31,35 @@ public protocol AutoPbxSubscript {
 public protocol ObjectsReferencing: AutoPbxSubscript {
     var objects: Object { get }
     func objectTuple(for id: String) -> (Object, Object)
+    var anyIsaObject: AnyIsaObject { get }
 }
 
 extension ObjectsReferencing {
     public func objectTuple(for id: String) -> (Object, Object) {
         return (objects.object(for: id)!, objects)
     }
+    public var anyIsaObject: AnyIsaObject {
+        return AnyIsaObject(object: object, objects: objects)
+    }
 }
 
 public protocol IsaObject: class, AutoPbxSubscript {
-    var isa: IsaType { get }
+    var isa: IsaType { get set }
 }
 
 extension IsaObject {
     public var isa: IsaType {
         get { return IsaType(rawValue: object.string(for: "isa")!)! }
         set(newValue) { object["isa"] = newValue.rawValue }
+    }
+}
+
+public class AnyIsaObject: IsaObject, ObjectsReferencing {
+    public let object: Object
+    public let objects: Object
+    public init(object: Object, objects: Object) {
+        assert(object.isa != nil)
+        self.object = object
+        self.objects = objects
     }
 }

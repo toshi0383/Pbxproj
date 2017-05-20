@@ -8,6 +8,7 @@
 
 import Foundation
 import AsciiPlistParser
+import PathKit
 
 public enum FileType: String {
     case xcconfig = "text.xcconfig"
@@ -20,14 +21,25 @@ public enum FileType: String {
     case wrapperapplication = "wrapper.application"
 }
 
+public enum SourceTree: String {
+    case group = "\"<group>\""
+    case builtProductsDir = "BUILT_PRODUCTS_DIR"
+}
+
 final public class FileReference: IsaObject, ObjectsReferencing {
     enum OptionalRawRepresentableField: String {
         case lastKnownFileType
         case explicitFileType
     }
+    enum RawRepresentableField: String {
+        case sourceTree
+    }
     enum StringField: String {
         case path
-        case sourceTree
+    }
+    enum OptionalStringField: String {
+        case name
+        case fileEncoding
     }
     public let object: Object
     public let objects: Object
@@ -44,10 +56,18 @@ extension FileReference {
     subscript(field: OptionalRawRepresentableField) -> FileType? {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
-                object[keyref] = newValue?.rawValue
+                if let rawValue = newValue?.rawValue {
+                    let existing = object[keyref] as! StringValue
+                    existing.value = rawValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
             } else {
-                let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                object[keyref] = newValue?.rawValue
+                if let rawValue = newValue?.rawValue {
+                    let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                    object[keyref] = StringValue(value: rawValue, annotation: nil)
+                }
             }
         }
         get {
@@ -57,15 +77,57 @@ extension FileReference {
             return FileType(rawValue: rawValue)
         }
     }
+    subscript(field: RawRepresentableField) -> SourceTree? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                if let rawValue = newValue?.rawValue {
+                    let existing = object[keyref] as! StringValue
+                    existing.value = rawValue
+                    object[keyref] = existing
+                } else {
+                    object[keyref] = nil
+                }
+            } else {
+                if let rawValue = newValue?.rawValue {
+                    let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                    object[keyref] = StringValue(value: rawValue, annotation: nil)
+                }
+            }
+        }
+        get {
+            guard let rawValue = object.string(for: field.rawValue) else {
+                return nil
+            }
+            return SourceTree(rawValue: rawValue)
+        }
+    }
     public var lastKnownFileType: LastKnownFileType? {
         return self[.lastKnownFileType]
     }
     public var explicitFileType: ExplicitFileType? {
         return self[.explicitFileType]
     }
+    public var sourceTree: SourceTree? {
+        return self[.sourceTree]
+    }
 }
 
-// MARK: Useful API
+extension FileReference {
+    static func create(path: Path) -> FileReference {
+        let fileref = FileReference(object: [:], objects: [:])
+        fileref[.lastKnownFileType] = .sourcecodeswift
+        fileref[.sourceTree] = .group
+        fileref[.fileEncoding] = "4"
+        let filename = path.components.last!
+        fileref[.name] = filename
+        fileref[.path] = path.normalize().string
+        fileref.object["isa"] = StringValue(value: IsaType.PBXFileReference.rawValue, annotation: nil)
+        assert(fileref.isa == .PBXFileReference)
+        return fileref
+    }
+}
+
+// MARK: Public API
 extension FileReference {
     public var fullPath: String {
         let path = findPaths(to: self, objects: objects) + [self.path]
