@@ -3,10 +3,11 @@
 
 
 import XCTest
-extension FileReferenceTests {
-  static var allTests: [(String, (FileReferenceTests) -> () throws -> Void)] = [
+extension FilesAndGroupsTests {
+  static var allTests: [(String, (FilesAndGroupsTests) -> () throws -> Void)] = [
     ("testFileReference", testFileReference),
-    ("testAddFileReference", testAddFileReference),
+    ("testAddAFile", testAddAFile),
+    ("testAddAFolderAsGroup", testAddAFolderAsGroup),
   ]
 }
 extension PbxprojTests {
@@ -18,7 +19,7 @@ extension PbxprojTests {
 }
 
 XCTMain([
-  testCase(FileReferenceTests.allTests),
+  testCase(FilesAndGroupsTests.allTests),
   testCase(PbxprojTests.allTests),
 ])
 

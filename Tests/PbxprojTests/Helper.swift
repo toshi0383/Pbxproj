@@ -14,7 +14,7 @@ func _pbxproj() -> Pbxproj {
     #if Xcode
         let path = pathForFixture(fileName: "test.pbxproj")
     #else
-        let path = pathForFixture(fileName: "Xcode/8.3.2/SingleViewApplication/SingleViewApplication.xcodeproj/project.pbxproj")
+        let path = "Tests/PbxprojTests/test.pbxproj"
     #endif
     return try! Pbxproj(path: path)
 }

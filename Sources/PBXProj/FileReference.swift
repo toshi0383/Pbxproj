@@ -57,7 +57,7 @@ extension FileReference {
         fileref[.fileEncoding] = "4"
         let filename = path.components.last!
         fileref[.name] = filename
-        fileref[.path] = path.normalize().string
+        fileref[.path] = path.string
         fileref.object["isa"] = StringValue(value: IsaType.PBXFileReference.rawValue, annotation: nil)
         assert(fileref.isa == .PBXFileReference)
         return fileref

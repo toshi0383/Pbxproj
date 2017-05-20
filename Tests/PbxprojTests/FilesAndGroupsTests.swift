@@ -1,5 +1,5 @@
 //
-//  FileReferenceTests.swift
+//  FilesAndGroupsTests.swift
 //  Pbxproj
 //
 //  Created by Toshihiro suzuki on 2017/05/16.
@@ -7,10 +7,11 @@
 //
 
 import XCTest
+import PathKit
 import AsciiPlistParser
 @testable import Pbxproj
 
-class FileReferenceTests: XCTestCase {
+class FilesAndGroupsTests: XCTestCase {
 
     var pbxproj: Pbxproj!
     override func setUp() {
@@ -35,7 +36,14 @@ class FileReferenceTests: XCTestCase {
         )
     }
 
-    func testAddFileReference() {
+    func testAddAFile() {
+        // mkdir and touch a file
+        let dir = Path("hoge/foo")
+        try! dir.mkpath()
+        let file = dir + "Bar.swift"
+        try! file.write("")
+
+        // test code
         let appTarget = pbxproj.target(named: "SingleViewApplication")!
         let group = pbxproj.groups(named: "SingleViewApplication")[0]
         try! group.addFiles(paths: ["./hoge/foo/Bar.swift"], copyItemsIfNeeded: false, behaviorForAddedFolders: .createGroups, addToTargets: [appTarget])
@@ -53,4 +61,38 @@ class FileReferenceTests: XCTestCase {
         XCTAssertEqual(buildFile.fileRef, fileRefId)
         XCTAssert(pbxproj.string().contains("/* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef ="))
     }
+
+    func testAddAFolderAsGroup() {
+        // mkdir and touch a file
+        let dir = Path("hoge/foo")
+        try! dir.mkpath()
+        let file = dir + "Bar.swift"
+        try! file.write("")
+        
+        // test code
+        let g = pbxproj.rootObject.mainGroup
+        try! g.addFiles(paths: ["./hoge/foo"], copyItemsIfNeeded: false, behaviorForAddedFolders: .createGroups, addToTargets: [])
+        guard let group = pbxproj.groups(named: "hoge/foo").first else {
+            XCTFail("groups not found.")
+            print(pbxproj.string())
+            return
+        }
+        XCTAssertEqual(group.isa, .PBXGroup)
+        XCTAssertEqual(group.path, "hoge/foo")
+        XCTAssertEqual(group.children.count, 1)
+        XCTAssertEqual(group.sourceTree, .group)
+        guard let fileref = pbxproj.fileReferences(named: "Bar.swift").first else {
+            XCTFail("fileReferences not found.")
+            print(pbxproj.string())
+            return
+        }
+        XCTAssertEqual(fileref.isa, .PBXFileReference)
+        XCTAssertEqual(fileref.explicitFileType, nil)
+        XCTAssertEqual(fileref.lastKnownFileType, .sourcecodeswift)
+        XCTAssertEqual(fileref.path, "Bar.swift")
+        XCTAssertEqual(fileref.sourceTree, .group)
+        XCTAssertEqual(fileref.fullPath, "hoge/foo/Bar.swift")
+        XCTAssert(pbxproj.string().contains("/* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bar.swift; path = Bar.swift; sourceTree = \"<group>\"; };"))
+    }
+
 }
