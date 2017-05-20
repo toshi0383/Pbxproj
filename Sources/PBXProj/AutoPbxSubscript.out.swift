@@ -237,7 +237,8 @@ extension FileReference {
         }
     }
     public var sourceTree: SourceTree {
-        return self[.sourceTree]
+        set(newValue) { self[.sourceTree] = newValue }
+        get { return self[.sourceTree] }
     }
 
 
@@ -337,7 +338,8 @@ extension Group {
         }
     }
     public var sourceTree: SourceTree {
-        return self[.sourceTree]
+        set(newValue) { self[.sourceTree] = newValue }
+        get { return self[.sourceTree] }
     }
 
 
@@ -678,7 +680,8 @@ extension Target {
         }
     }
     public var productType: ProductType {
-        return self[.productType]
+        set(newValue) { self[.productType] = newValue }
+        get { return self[.productType] }
     }
 
 

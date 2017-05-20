@@ -1,5 +1,5 @@
 import Foundation
 
 enum AddFilesError: Error {
-    case filesNotFound
+    case fileNotExist(String)
 }

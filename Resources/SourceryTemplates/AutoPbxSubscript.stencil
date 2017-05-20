@@ -55,7 +55,8 @@ extension {{ type.name }} {
         }
     }
     public var {{ c.name }}: {{ c.name|upperFirst }} {
-        return self[.{{ c.name }}]
+        set(newValue) { self[.{{ c.name }}] = newValue }
+        get { return self[.{{ c.name }}] }
     }
     {% endfor %}
     {% endif %}

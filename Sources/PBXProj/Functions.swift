@@ -13,6 +13,10 @@ func findPaths(to fileref: FileReference, objects: Object) -> [String] {
     let id = objects.filter { ($1 as? Object) == fileref.object }.map { $0.0.value }[0]
     return _findPaths(to: id, objects: objects)
 }
+func findPaths(to group: Group, objects: Object) -> [String] {
+    let id = objects.filter { ($1 as? Object) == group.object }.map { $0.0.value }[0]
+    return _findPaths(to: id, objects: objects)
+}
 func _findPaths(to id: String, objects: Object) -> [String] {
     for (k, v) in objects {
         if let o = v as? Object, let isa = o.isa, isa == .PBXGroup {

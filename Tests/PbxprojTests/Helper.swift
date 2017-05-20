@@ -1,5 +1,6 @@
 import Foundation
 import Pbxproj
+import PathKit
 
 func pathForFixture(fileName: String) -> String {
     #if Xcode
@@ -14,7 +15,25 @@ func _pbxproj() -> Pbxproj {
     #if Xcode
         let path = pathForFixture(fileName: "test.pbxproj")
     #else
-        let path = pathForFixture(fileName: "Xcode/8.3.2/SingleViewApplication/SingleViewApplication.xcodeproj/project.pbxproj")
+        let path = "Tests/PbxprojTests/test.pbxproj"
     #endif
     return try! Pbxproj(path: path)
+}
+
+func createPathAndFiles(path: String) {
+    let components = path.components(separatedBy: "/")
+    let dir = components.dropLast()
+    let d = Path(components: dir)
+    if d.exists == false {
+        try! d.mkpath()
+    }
+    let file = components.last!
+    try! (d + file).write("")
+}
+
+func cleanup(path: String) {
+    let p = Path(path)
+    if p.exists {
+        try! p.delete()
+    }
 }
