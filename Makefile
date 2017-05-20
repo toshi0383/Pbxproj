@@ -1,6 +1,6 @@
 .PHONY = bootstrap sourcery
 SOURCERY ?= ./.build/debug/sourcery
-MODULE_NAME = PBXProj
+MODULE_NAME = Pbxproj
 
 bootstrap:
 	SWIFTPM_DEVELOPMENT=YES swift build
