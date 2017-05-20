@@ -3,6 +3,11 @@
 
 
 import XCTest
+extension BuildConfigurationTests {
+  static var allTests: [(String, (BuildConfigurationTests) -> () throws -> Void)] = [
+    ("testMutateBaseConfigurationReference", testMutateBaseConfigurationReference),
+  ]
+}
 extension FilesAndGroupsTests {
   static var allTests: [(String, (FilesAndGroupsTests) -> () throws -> Void)] = [
     ("testFileReference", testFileReference),
@@ -19,6 +24,7 @@ extension PbxprojTests {
 }
 
 XCTMain([
+  testCase(BuildConfigurationTests.allTests),
   testCase(FilesAndGroupsTests.allTests),
   testCase(PbxprojTests.allTests),
 ])

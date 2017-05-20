@@ -5,6 +5,46 @@ import AsciiPlistParser
 extension {{ type.name }} {
 {% for t in type.containedTypes %}
 {% if t.kind == "enum" %}
+    {% if t.name|hasSuffix:".OptionalFileReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    subscript(field: OptionalFileReferencingField) -> FileReference? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue?.object
+            } else {
+                if let o = newValue?.object {
+                    let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                    object[keyref] = objects.key(for: o)
+                }
+            }
+        }
+        get {
+            guard let id = object.string(for: field.rawValue) else {
+                return nil
+            }
+            return FileReference(object: objects.object(for: id)!, objects: objects)
+        }
+    }
+    {% endif %}
+    {% endif %}
+    {% if t.name|hasSuffix:".FileReferencingField" %}
+    {% if type.implements.ObjectsReferencing %}
+    subscript(field: FileReferencingField) -> FileReference? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue.object
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue.object
+            }
+        }
+        get {
+            let id = object.string(for: "{{ c.name }}")!
+            return FileReference(object: objects.object(for: id)!, objects: objects)
+        }
+    }
+    {% endif %}
+    {% endif %}
     {% if t.name|hasSuffix:".OptionalFileTypeField" %}
     subscript(field: OptionalFileTypeField) -> FileType? {
         set(newValue) {
@@ -221,18 +261,16 @@ extension {{ type.name }} {
     {% if t.name|hasSuffix:".FileReferencingField" %}
     {% if type.implements.ObjectsReferencing %}
     public var {{ c.name }}: FileReference {
-        let id = object.string(for: "{{ c.name }}")!
-        return FileReference(object: objects.object(for: id)!, objects: objects)
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
     }
     {% endif %}
     {% endif %}
     {% if t.name|hasSuffix:".OptionalFileReferencingField" %}
     {% if type.implements.ObjectsReferencing %}
     public var {{ c.name }}: FileReference? {
-        guard let id = object.string(for: "{{ c.name }}") else {
-            return nil
-        }
-        return FileReference(object: objects.object(for: id)!, objects: objects)
+        get { return self[.{{ c.name }}] }
+        set(newValue) { self[.{{ c.name }}] = newValue }
     }
     {% endif %}
     {% endif %}
