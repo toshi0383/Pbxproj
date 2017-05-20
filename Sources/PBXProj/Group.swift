@@ -70,5 +70,6 @@ extension Group {
         }
     }
     func _addGroup(path: Path, copyItemsIfNeeded: Bool = false, behaviorForAddedFolders: BehaviorForAddedFolders = .createGroups, addToTargets targets: [Target] = []) throws {
+        // TODO: not implemented yet
     }
 }
