@@ -8,6 +8,11 @@
   [Toshihiro Suzuki](https://github.com/toshi0383)
   [#1](https://github.com/toshi0383/Pbxproj/pull/1)
 
+##### Breaking
+* Change module import name from PBXProj => Pbxproj  
+  [Toshihiro Suzuki](https://github.com/toshi0383)
+  [#4](https://github.com/toshi0383/Pbxproj/pull/4)
+
 ##### Bug Fix
 * Fix rootObject.buildConfigurationList return type  
   [Toshihiro Suzuki](https://github.com/toshi0383)
