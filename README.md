@@ -29,6 +29,25 @@ for target in pbxproj.targets {
 try! pbxproj.write(path: path)
 ```
 
+## Add a existing folder (recursively) under mainGroup
+```
+hoge
+└── foo
+    ├── Bar.xcconfig
+    ├── Foo.xcconfig
+    └── bar
+        └── Age.xcconfig
+```
+
+```swift
+// addFiles
+let g = pbxproj.rootObject.mainGroup
+try! g.addFiles(paths: ["./hoge/foo"], copyItemsIfNeeded: false, behaviorForAddedFolders: .createGroups, addToTargets: [])
+```
+
+This will add existing `Bar.xcconfig`, `Foo.xcconfig`, and `bar/Age.xcconfig` under new Group named `hoge/foo`.  
+`Group#addFiles(...)` is equivalent to Xcode's to Xcode's `Add Files to ...`, but `createFolderReference` and `copyItemsIfNeeded` are not implemented yet.
+
 ## Interact with underlying Object
 Pbxproj uses [toshi0383/AsciiPlistParser](https://github.com/toshi0383/AsciiPlistParser) to parse/serialize ascii plist.  
 You can interact with underlying Object directly. This way you can even deal with unknown objects in future, without waiting for this library to be updated.  
@@ -48,6 +67,7 @@ A lot of fundamental features are still work-in-progress.
 - [ ] parse all kind of objects
 - [ ] add useful features like sort
 - [ ] provide CLI interface
+- [ ] migrate to Quick from XCTest
 - [ ] add more tests
 
 Contribution is welcomed.
