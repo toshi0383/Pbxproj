@@ -31,12 +31,28 @@ extension BuildConfiguration {
         set(newValue) { self[.name] = newValue }
     }
 
+    subscript(field: OptionalFileReferencingField) -> FileReference? {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue?.object
+            } else {
+                if let o = newValue?.object {
+                    let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                    object[keyref] = objects.key(for: o)
+                }
+            }
+        }
+        get {
+            guard let id = object.string(for: field.rawValue) else {
+                return nil
+            }
+            return FileReference(object: objects.object(for: id)!, objects: objects)
+        }
+    }
 
     public var baseConfigurationReference: FileReference? {
-        guard let id = object.string(for: "baseConfigurationReference") else {
-            return nil
-        }
-        return FileReference(object: objects.object(for: id)!, objects: objects)
+        get { return self[.baseConfigurationReference] }
+        set(newValue) { self[.baseConfigurationReference] = newValue }
     }
 
     subscript(field: ObjectField) -> Object {
