@@ -19,7 +19,6 @@ class PbxprojTests: XCTestCase {
         pbxproj.archiveVersion = "2"
         XCTAssertEqual(pbxproj.archiveVersion, "2")
         XCTAssert(pbxproj.string().contains("archiveVersion = 2"))
-        _ = pbxproj.rootObject
         pbxproj.targets[0].name = "Hello Modified"
         XCTAssertEqual(pbxproj.targets[0].name, "Hello Modified")
         XCTAssert(pbxproj.string().contains("Hello Modified"))

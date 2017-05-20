@@ -32,7 +32,7 @@ final public class Target: IsaObject, ObjectsReferencing {
     enum ArrayField: String {
         case dependencies // TODO: [FileReferencingField]
     }
-    enum ObjectsReferencingField: String {
+    enum ObjectReferencingField: String {
         case buildConfigurationList
     }
     enum ObjectReferencingArrayField: String {

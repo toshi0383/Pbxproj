@@ -14,6 +14,8 @@ public class RootObject: IsaObject, ObjectsReferencing {
     }
     enum ObjectField: String {
         case attributes
+    }
+    enum ObjectReferencingField: String {
         case buildConfigurationList
     }
     enum OptionalStringField: String {
