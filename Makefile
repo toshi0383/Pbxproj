@@ -1,10 +1,17 @@
-.PHONY = bootstrap sourcery
+.PHONY = update test bootstrap sourcery
 SOURCERY ?= ./.build/debug/sourcery
 MODULE_NAME = Pbxproj
+PARAM = SWIFTPM_DEVELOPMENT=YES
+
+test:
+	$(PARAM) swift test
+
+update:
+	$(PARAM) swift package update
 
 bootstrap:
-	SWIFTPM_DEVELOPMENT=YES swift build
-	swift package generate-xcodeproj
+	$(PARAM) swift build
+	$(PARAM) swift package generate-xcodeproj
 	# Add Tests/PbxprojTests/test.pbxproj to xcodeproj
 
 sourcery:
