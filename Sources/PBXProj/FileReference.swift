@@ -19,6 +19,31 @@ public enum FileType: String {
     case wrappercfbundle = "wrapper.cfbundle"
     case textplistxml = "text.plist.xml"
     case wrapperapplication = "wrapper.application"
+    public init?(filename: String) {
+        guard let ext = Path(filename).extension else {
+            return nil
+        }
+        switch ext {
+        case "xcconfig":
+            self = .xcconfig
+        case "swift":
+            self = .sourcecodeswift
+        case "storyboard":
+            self = .filestoryboard
+        case "xcassets":
+            self = .folderassetcatalog
+        case "xcdatamodeld":
+            self = .wrapperxcdatamodel
+        case "plist":
+            self = .textplistxml
+        case "bundle":
+            self = .wrappercfbundle
+        case "app":
+            self = .wrapperapplication
+        default:
+            return nil
+        }
+    }
 }
 
 public enum SourceTree: String {
@@ -52,7 +77,7 @@ final public class FileReference: IsaObject, ObjectsReferencing {
 extension FileReference {
     static func create(path: Path) -> FileReference {
         let fileref = FileReference(object: [:], objects: [:])
-        fileref[.lastKnownFileType] = .sourcecodeswift
+        fileref[.lastKnownFileType] = FileType(filename: path.lastComponent)!
         fileref[.sourceTree] = .group
         fileref[.fileEncoding] = "4"
         let filename = path.components.last!
