@@ -30,3 +30,10 @@ func createPathAndFiles(path: String) {
     let file = components.last!
     try! (d + file).write("")
 }
+
+func cleanup(path: String) {
+    let p = Path(path)
+    if p.exists {
+        try! p.delete()
+    }
+}

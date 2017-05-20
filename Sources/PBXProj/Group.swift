@@ -43,6 +43,13 @@ extension Group {
 // MARK: Public API
 
 extension Group {
+    public var fullPath: String {
+        let path = findPaths(to: self, objects: objects) + [self.path!]
+        return path.joined(separator: "/")
+    }
+}
+
+extension Group {
     public enum BehaviorForAddedFolders {
         case createGroups, createFolderReference
     }
@@ -92,6 +99,7 @@ extension Group {
         let groupId = generateNewId()
         let annotation = path.lastComponent
         let gkeyref = KeyRef(value: groupId, annotation: annotation)
+        children.append(gkeyref)
         objects[gkeyref] = group.object
         // add children recursively
         try path.chdir {
