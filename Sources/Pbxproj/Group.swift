@@ -14,7 +14,7 @@ final public class Group: IsaObject, ObjectsReferencing {
     enum ArrayField: String {
         case children
     }
-    enum RawRepresentableField: String {
+    enum StringValueField: String {
         case sourceTree
     }
     enum OptionalStringField: String {

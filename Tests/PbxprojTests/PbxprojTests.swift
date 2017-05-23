@@ -13,6 +13,8 @@ class PbxprojTests: XCTestCase {
         XCTAssertEqual(pbxproj.objectVersion, "46")
         let exObj: Object = [:]
         XCTAssertEqual(pbxproj.classes!, exObj)
+        let url = URL(fileURLWithPath: _pbxprojPath())
+        XCTAssertEqual(pbxproj.string(), String(data: try! Data(contentsOf: url), encoding: .utf8))
     }
     func testModification() {
         XCTAssertEqual(pbxproj.archiveVersion, "1")

@@ -5,7 +5,7 @@
       "package": "AsciiPlistParser",
       "reason": null,
       "repositoryURL": "https://github.com/toshi0383/AsciiPlistParser.git",
-      "version": "0.2.2"
+      "version": "0.3.0-rc2"
     },
     {
       "package": "Clang_C",
@@ -59,7 +59,7 @@
       "package": "SourceKitten",
       "reason": null,
       "repositoryURL": "https://github.com/jpsim/SourceKitten.git",
-      "version": "0.17.4"
+      "version": "0.17.6"
     },
     {
       "package": "Sourcery",

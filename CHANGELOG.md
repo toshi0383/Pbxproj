@@ -14,6 +14,10 @@
   [#4](https://github.com/toshi0383/Pbxproj/pull/4)
 
 ##### Bug Fix
+* Quoted String Support  
+  [Toshihiro Suzuki](https://github.com/toshi0383)
+  [#6](https://github.com/toshi0383/Pbxproj/pull/6)
+
 * Mutable baseConfigurationReference  
   [Toshihiro Suzuki](https://github.com/toshi0383)
   [#5](https://github.com/toshi0383/Pbxproj/pull/5)
