@@ -46,7 +46,7 @@ public enum FileType: String {
     }
 }
 
-public enum SourceTree: String {
+public enum SourceTree: StringValue {
     case group = "\"<group>\""
     case builtProductsDir = "BUILT_PRODUCTS_DIR"
 }
@@ -56,7 +56,7 @@ final public class FileReference: IsaObject, ObjectsReferencing {
         case lastKnownFileType
         case explicitFileType
     }
-    enum RawRepresentableField: String {
+    enum StringValueField: String {
         case sourceTree
     }
     enum StringField: String {

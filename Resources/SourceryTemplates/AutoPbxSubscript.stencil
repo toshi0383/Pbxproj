@@ -51,8 +51,7 @@ extension {{ type.name }} {
             if let keyref = object.keyRef(for: field.rawValue) {
                 if let rawValue = newValue?.rawValue {
                     let existing = object[keyref] as! StringValue
-                    existing.value = rawValue
-                    object[keyref] = existing
+                    object[keyref] = existing.update(value: rawValue)
                 } else {
                     object[keyref] = nil
                 }
@@ -76,14 +75,35 @@ extension {{ type.name }} {
     }
     {% endfor %}
     {% endif %}
+    {% if t.name|hasSuffix:".StringValueField" %}
+    {% for c in t.cases %}
+    subscript(field: StringValueField) -> {{ c.name|upperFirst }} {
+        set(newValue) {
+            if let keyref = object.keyRef(for: field.rawValue) {
+                object[keyref] = newValue.rawValue
+            } else {
+                let keyref = KeyRef(value: field.rawValue, annotation: nil)
+                object[keyref] = newValue.rawValue
+            }
+        }
+        get {
+            let rawValue = object.stringValue(for: field.rawValue)!
+            return {{ c.name|upperFirst }}(rawValue: rawValue)!
+        }
+    }
+    public var {{ c.name }}: {{ c.name|upperFirst }} {
+        set(newValue) { self[.{{ c.name }}] = newValue }
+        get { return self[.{{ c.name }}] }
+    }
+    {% endfor %}
+    {% endif %}
     {% if t.name|hasSuffix:".RawRepresentableField" %}
     {% for c in t.cases %}
     subscript(field: RawRepresentableField) -> {{ c.name|upperFirst }} {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
                 let existing = object[keyref] as! StringValue
-                existing.value = newValue.rawValue
-                object[keyref] = existing
+                object[keyref] = existing.update(value: newValue.rawValue)
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
                 object[keyref] = StringValue(value: newValue.rawValue, annotation: nil)
@@ -105,8 +125,7 @@ extension {{ type.name }} {
         set(newValue) {
             if let keyref = object.keyRef(for: field.rawValue) {
                 let existing = object[keyref] as! StringValue
-                existing.value = newValue
-                object[keyref] = existing
+                object[keyref] = existing.update(value: newValue)
             } else {
                 let keyref = KeyRef(value: field.rawValue, annotation: nil)
                 let stringValue = StringValue(value: newValue, annotation: nil)
@@ -152,8 +171,7 @@ extension {{ type.name }} {
             if let keyref = object.keyRef(for: field.rawValue) {
                 if let newValue = newValue {
                     let existing = object[keyref] as! StringValue
-                    existing.value = newValue
-                    object[keyref] = existing
+                    object[keyref] = existing.update(value: newValue)
                 } else {
                     object[keyref] = nil
                 }
