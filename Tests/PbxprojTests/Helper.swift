@@ -11,13 +11,17 @@ func pathForFixture(fileName: String) -> String {
     #endif
 }
 
-func _pbxproj() -> Pbxproj {
+func _pbxprojPath() -> String {
     #if Xcode
         let path = pathForFixture(fileName: "test.pbxproj")
     #else
         let path = "Tests/PbxprojTests/test.pbxproj"
     #endif
-    return try! Pbxproj(path: path)
+    return path
+}
+
+func _pbxproj() -> Pbxproj {
+    return try! Pbxproj(path: _pbxprojPath())
 }
 
 func createPathAndFiles(path: String) {
