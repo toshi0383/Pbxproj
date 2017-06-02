@@ -42,5 +42,6 @@ public class BuildConfiguration: IsaObject, ObjectsReferencing {
     public init(object: Object, objects: Object) {
         self.object = object
         self.objects = objects
+        assert(isa == .XCBuildConfiguration)
     }
 }
