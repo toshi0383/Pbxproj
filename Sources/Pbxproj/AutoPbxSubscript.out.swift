@@ -32,16 +32,16 @@ extension BuildConfiguration {
 
     subscript(field: OptionalFileReferencingField) -> FileReference? {
         set(newValue) {
-            if let o = newValue?.object {
-                guard let id = objects.key(for: o) else {
+            if let fileref = newValue {
+                guard let id = objects.key(for: fileref.object) else {
                     assertionFailure("id for fileref is not found in objects. Make sure you add fileref first using `addFiles` API.")
                     return
                 }
                 if let keyref = object.keyRef(for: field.rawValue) {
-                    object[keyref] = id
+                    object[keyref] = StringValue.raw(value: id, annotation: fileref.name)
                 } else {
                     let keyref = KeyRef(value: field.rawValue, annotation: nil)
-                    object[keyref] = id
+                    object[keyref] = StringValue.raw(value: id, annotation: fileref.name)
                 }
             } else {
                 if let keyref = object.keyRef(for: field.rawValue) {

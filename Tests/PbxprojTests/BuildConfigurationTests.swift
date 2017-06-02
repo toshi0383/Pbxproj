@@ -24,6 +24,7 @@ class BuildConfigurationTests: XCTestCase {
             return
         }
         XCTAssertEqual(generatedId, c.object.string(for: "baseConfigurationReference"))
+        XCTAssertEqual(.raw(value: generatedId, annotation: "Bar.xcconfig"), c.object.stringValue(for: "baseConfigurationReference"))
         let foo = pbxproj.groups(named: "foo")[0]
         XCTAssertEqual(foo.name, Optional<String>.none)
         XCTAssertEqual(foo.path, "foo")
