@@ -24,5 +24,10 @@ class BuildConfigurationTests: XCTestCase {
             return
         }
         XCTAssertEqual(generatedId, c.object.string(for: "baseConfigurationReference"))
+        let foo = pbxproj.groups(named: "foo")[0]
+        XCTAssertEqual(foo.name, Optional<String>.none)
+        XCTAssertEqual(foo.path, "foo")
+        c.baseConfigurationReference = fileref
+        XCTAssertEqual(c.baseConfigurationReference?.fullPath, "foo/Bar.xcconfig")
     }
 }

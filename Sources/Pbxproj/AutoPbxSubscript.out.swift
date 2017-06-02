@@ -38,7 +38,7 @@ extension BuildConfiguration {
                     return
                 }
                 if let keyref = object.keyRef(for: field.rawValue) {
-                    object[keyref] = keyref
+                    object[keyref] = id
                 } else {
                     let keyref = KeyRef(value: field.rawValue, annotation: nil)
                     object[keyref] = id
