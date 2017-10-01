@@ -46,7 +46,7 @@ try! g.addFiles(paths: ["./hoge/foo"], copyItemsIfNeeded: false, behaviorForAdde
 ```
 
 This will add existing `Bar.xcconfig`, `Foo.xcconfig`, and `bar/Age.xcconfig` under new Group named `hoge/foo`.  
-`Group#addFiles(...)` is equivalent to Xcode's to Xcode's `Add Files to ...`, but `createFolderReference` and `copyItemsIfNeeded` are not implemented yet.
+`Group#addFiles(...)` is equivalent to Xcode's `Add Files to ...`, but `createFolderReference` and `copyItemsIfNeeded` are not implemented yet.
 
 ## Interact with underlying Object
 Pbxproj uses [toshi0383/AsciiPlistParser](https://github.com/toshi0383/AsciiPlistParser) to parse/serialize ascii plist.  
